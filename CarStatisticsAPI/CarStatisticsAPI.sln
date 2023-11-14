@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarStatistics.Data", "CarSt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarStatistics.Services", "CarStatistics.Services\CarStatistics.Services.csproj", "{E15C5E26-4F13-4298-80D5-E5C4AA674766}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarStatisticsDataLoaderIntoSystem", "CarStatisticsDataLoaderIntoSystem\CarStatisticsDataLoaderIntoSystem.csproj", "{73A16EC4-3CC2-402D-BDB5-8D0060653608}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{E15C5E26-4F13-4298-80D5-E5C4AA674766}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E15C5E26-4F13-4298-80D5-E5C4AA674766}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E15C5E26-4F13-4298-80D5-E5C4AA674766}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73A16EC4-3CC2-402D-BDB5-8D0060653608}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73A16EC4-3CC2-402D-BDB5-8D0060653608}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73A16EC4-3CC2-402D-BDB5-8D0060653608}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73A16EC4-3CC2-402D-BDB5-8D0060653608}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
