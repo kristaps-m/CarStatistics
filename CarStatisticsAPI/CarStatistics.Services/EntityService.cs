@@ -1,10 +1,12 @@
-﻿using CarStatistics.Core.models;
+﻿using CarStatistics.Core.Interfaces;
+using CarStatistics.Core.models;
+using CarStatistics.Data;
 
 namespace CarStatistics.Services
 {
     public class EntityService<T>: DbService, IEntityService<T> where T : Entity
     {
-        public EntityService(IVillageDbContext context) : base(context)
+        public EntityService(ICarStatisticsDbContext context) : base(context)
         {
 
         }

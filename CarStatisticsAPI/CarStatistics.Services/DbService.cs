@@ -1,6 +1,7 @@
 ﻿using CarStatistics.Core.Interfaces;
 using CarStatistics.Core.models;
 using CarStatistics.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarStatistics.Services
 {

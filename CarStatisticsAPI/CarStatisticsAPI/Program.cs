@@ -1,4 +1,6 @@
+using CarStatistics.Core.Interfaces;
 using CarStatistics.Data;
+using CarStatistics.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("CarStatistics");
 builder.Services.AddDbContext<CarStatisticsDbContext>(x => x.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<ICarStatisticsDbContext, CarStatisticsDbContext>();
+builder.Services.AddScoped<IDbService, DbService>();
+builder.Services.AddScoped<ICarSpeedStatisticService, CarSpeedStatisticService>();
 
 var app = builder.Build();
 

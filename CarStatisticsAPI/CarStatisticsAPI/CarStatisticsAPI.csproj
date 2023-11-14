@@ -15,12 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CarStatistics.Core\CarStatistics.Core.csproj" />
     <ProjectReference Include="..\CarStatistics.Data\CarStatistics.Data.csproj" />
+    <ProjectReference Include="..\CarStatistics.Services\CarStatistics.Services.csproj" />
   </ItemGroup>
 
 </Project>
