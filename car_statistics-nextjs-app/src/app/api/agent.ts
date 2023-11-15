@@ -1,9 +1,9 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 
-axios.defaults.baseURL =
-  "https://run.mocky.io/v3/b54fe93f-f5a1-426b-a76c-e43d246901fd";
-
+// axios.defaults.baseURL =
+//   "https://run.mocky.io/v3/b54fe93f-f5a1-426b-a76c-e43d246901fd";
+axios.defaults.baseURL = "https://localhost:5000/api/CarSpeedStatistic/";
 const responseBody = (response: AxiosResponse) => response.data;
 
 axios.interceptors.response.use(
@@ -48,8 +48,8 @@ const TestErrors = {
 };
 
 const Catalog = {
-  list: () => requests.get("products"),
-  details: (id: number) => requests.get(`products/${id}`),
+  list: () => requests.get("get-all"),
+  details: (id: number) => requests.get(`${id}`),
 };
 
 const agent = {

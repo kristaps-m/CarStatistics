@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import agent from "../../app/api/agent";
-import { Product } from "../../app/models/product";
+import { CarStatistic } from "../../app/models/CarStatistic";
 import ProductCard from "./ProductCard";
 import Pagination, { paginate } from "../../component/Pagination";
 import { useDebounce } from "use-debounce";
 
 export default function ProductList() {
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 4;
+  const pageSize = 8;
   const onPageChange = (page: number) => {
     setCurrentPage(page);
   };
-  const [products, setProducts] = useState<Product[]>([]);
+  const [carStatistics, setProducts] = useState<CarStatistic[]>([]);
   const [loading, setLoading] = useState(true);
   // DEBOUNCE
   const [text, setText] = useState("");
@@ -22,18 +22,25 @@ export default function ProductList() {
 
   useEffect(() => {
     agent.Catalog.list()
-      .then((products) => {
-        const filteredProducts = products.products.filter((product: Product) =>
-          product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      .then((carStatistics) => {
+        const filteredCarStatistics = carStatistics.filter(
+          (oneCarStatistic: CarStatistic) =>
+            oneCarStatistic.carRegistrationNumber
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())
         );
 
-        setProducts(filteredProducts);
+        setProducts(filteredCarStatistics);
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, [searchTerm]);
 
-  const paginatedPosts: Product[] = paginate(products, currentPage, pageSize);
+  const paginatedPosts: CarStatistic[] = paginate(
+    carStatistics,
+    currentPage,
+    pageSize
+  );
 
   return (
     <div data-testid="productList-1">
@@ -59,19 +66,19 @@ export default function ProductList() {
         <h1>Loading...</h1>
       ) : (
         <div className="grid grid-cols-2 gap-4">
-          {paginatedPosts.map((product) => (
+          {paginatedPosts.map((oneCarStatistic) => (
             <div
-              key={product.id}
+              key={oneCarStatistic.id}
               className="hover:bg-gray-100 transition duration-300 ease-in-out transform hover:-translate-y-1"
             >
-              <ProductCard product={product} />
+              <ProductCard product={oneCarStatistic} />
             </div>
           ))}
         </div>
       )}
       <br />
       <Pagination
-        items={products.length}
+        items={carStatistics.length}
         currentPage={currentPage} // 1
         pageSize={pageSize}
         onPageChange={onPageChange}
