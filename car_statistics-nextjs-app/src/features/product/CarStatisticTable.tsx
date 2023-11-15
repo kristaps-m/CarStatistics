@@ -1,17 +1,9 @@
-// ProductList.tsx
 import React, { useState, useEffect } from "react";
 import agent from "../../app/api/agent";
 import { CarStatistic } from "../../app/models/CarStatistic";
 import CarStatisticRow from "./CarStatisticRow";
 import Pagination, { paginate } from "../../component/Pagination";
 import { useDebounce } from "use-debounce";
-
-function ConvertTheCarDate(theDate: string) {
-  const carSpeedDate = new Date(theDate);
-  const formattedCarSpeedDate = carSpeedDate.toISOString().split("T")[0];
-
-  return formattedCarSpeedDate;
-}
 
 function ToDate(dateString: string) {
   return new Date(dateString);
@@ -53,15 +45,55 @@ export default function ProductList() {
   useEffect(() => {
     agent.Catalog.list()
       .then((carStatistics) => {
-        const filteredCarStatistics = carStatistics.filter(
-          (oneCarStatistic: CarStatistic) =>
-            oneCarStatistic.carRegistrationNumber
-              .toLowerCase()
-              .includes(searchRegNr.toLowerCase()) &&
-            oneCarStatistic.carSpeed >= searchByCarSpeed &&
-            ToDate(oneCarStatistic.carSpeedDate) > ToDate(searchCarDateFrom) &&
-            ToDate(oneCarStatistic.carSpeedDate) <= ToDate(searchCarDateTo)
+        let filteredCarStatistics;
+        console.log(
+          searchCarDateFrom == "",
+          isNaN(Date.parse(searchCarDateFrom)),
+          searchCarDateTo == "",
+          isNaN(Date.parse(searchCarDateTo))
         );
+        // IF both dates empty search for car number and speed
+        if (searchCarDateFrom == "" && searchCarDateTo == "") {
+          filteredCarStatistics = carStatistics.filter(
+            (oneCarStatistic: CarStatistic) =>
+              oneCarStatistic.carRegistrationNumber
+                .toLowerCase()
+                .includes(searchRegNr.toLowerCase()) &&
+              oneCarStatistic.carSpeed >= searchByCarSpeed
+          );
+        } else if (searchCarDateFrom != "" && searchCarDateTo != "") {
+          filteredCarStatistics = carStatistics.filter(
+            (oneCarStatistic: CarStatistic) =>
+              oneCarStatistic.carRegistrationNumber
+                .toLowerCase()
+                .includes(searchRegNr.toLowerCase()) &&
+              oneCarStatistic.carSpeed >= searchByCarSpeed &&
+              Date.parse(oneCarStatistic.carSpeedDate) >
+                Date.parse(searchCarDateFrom) &&
+              Date.parse(oneCarStatistic.carSpeedDate) <=
+                Date.parse(searchCarDateTo)
+          );
+        } else if (searchCarDateFrom != "") {
+          filteredCarStatistics = carStatistics.filter(
+            (oneCarStatistic: CarStatistic) =>
+              oneCarStatistic.carRegistrationNumber
+                .toLowerCase()
+                .includes(searchRegNr.toLowerCase()) &&
+              oneCarStatistic.carSpeed >= searchByCarSpeed &&
+              Date.parse(oneCarStatistic.carSpeedDate) >
+                Date.parse(searchCarDateFrom)
+          );
+        } else if (searchCarDateTo != "") {
+          filteredCarStatistics = carStatistics.filter(
+            (oneCarStatistic: CarStatistic) =>
+              oneCarStatistic.carRegistrationNumber
+                .toLowerCase()
+                .includes(searchRegNr.toLowerCase()) &&
+              oneCarStatistic.carSpeed >= searchByCarSpeed &&
+              Date.parse(oneCarStatistic.carSpeedDate) <=
+                Date.parse(searchCarDateTo)
+          );
+        }
 
         setProducts(filteredCarStatistics);
       })
@@ -75,10 +107,20 @@ export default function ProductList() {
     pageSize
   );
   console.log(
-    `Speed = ${searchByCarSpeed}, From = ${searchCarDateFrom}, To = ${searchCarDateTo}, Len = ${carStatistics.length}`
+    `Speed = ${searchByCarSpeed}, From = ${searchCarDateFrom}, To = ${searchCarDateTo}, Len = ${
+      carStatistics.length
+    }\n From.P = ${Date.parse(searchCarDateFrom)}, To.P = ${Date.parse(
+      searchCarDateTo
+    )},\n From.ToDate = ${ToDate(searchCarDateFrom)}, To.ToDate = ${ToDate(
+      searchCarDateTo
+    )}`
   );
   // 2020-08-01 00:07:55
-  console.log(ToDate("2020-08-01T00:07:55"), "2020-08-01 00:07:55");
+  console.log(
+    ToDate("2020-08-01T00:07:55"),
+    Date.parse("2020-08-01T00:07:55"),
+    "2020-08-01 00:07:55"
+  );
   return (
     <div data-testid="productList-1">
       {/* DATE to ---------------------------------------------------------------------------- */}
@@ -143,7 +185,7 @@ export default function ProductList() {
         <input
           type="text"
           value={text}
-          placeholder="Search products..."
+          placeholder="Search car Nr..."
           onChange={(e) => {
             setText(e.target.value);
             setCurrentPage(1); // Reset currentPage to 1 when searching
@@ -167,7 +209,9 @@ export default function ProductList() {
               <tr>
                 <th className="px-4 py-2">Row Nr</th>
                 <th className="px-4 py-2">ID</th>
-                <th className="px-4 py-2">CarSpeedDate</th>
+                <th className="px-4 py-2">
+                  CarSpeedDate <p style={{ fontSize: 10 }}>(dd/mm/yyyy)</p>
+                </th>
                 <th className="px-4 py-2">CarSpeed</th>
                 <th className="px-4 py-2">CarRegistrationNumber</th>
               </tr>

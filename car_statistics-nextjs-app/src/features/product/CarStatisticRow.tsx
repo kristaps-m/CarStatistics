@@ -15,7 +15,7 @@ const CarStatisticRow: React.FC<CarStatisticRowProps> = ({
       <td className="border border-black px-4 py-2">{index}</td>
       <td className="border border-black px-4 py-2">{carStatistic.id}</td>
       <td className="border border-black px-4 py-2">
-        {carStatistic.carSpeedDate}
+        {new Date(carStatistic.carSpeedDate).toLocaleDateString("en-GB")}
       </td>
       <td className="border border-black px-4 py-2">{carStatistic.carSpeed}</td>
       <td className="border border-black px-4 py-2">
