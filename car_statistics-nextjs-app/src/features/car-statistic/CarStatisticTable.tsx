@@ -15,7 +15,7 @@ export default function ProductList() {
   const onPageChange = (page: number) => {
     setCurrentPage(page);
   };
-  const [carStatistics, setProducts] = useState<CarStatistic[]>([]);
+  const [carStatistics, setCarStatistics] = useState<CarStatistic[]>([]);
   const [loading, setLoading] = useState(true);
   // DEBOUNCE Car Reg Nr
   const [text, setText] = useState("");
@@ -95,7 +95,7 @@ export default function ProductList() {
           );
         }
 
-        setProducts(filteredCarStatistics);
+        setCarStatistics(filteredCarStatistics);
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));

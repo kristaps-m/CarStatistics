@@ -55,6 +55,15 @@ namespace CarStatisticsAPI.Controllers
             return Ok(allCarSpeedStatistic);
         }
 
+        [Route("get-bydate")]
+        [HttpGet]
+        public IActionResult GetAllCarSpeedStatisticByDate(DateTime searchByDate)
+        {
+            var allCarSpeedStatistic = _carSpeedStatisticService.GetTheThings(searchByDate);
+
+            return Ok(allCarSpeedStatistic);
+        }
+
         [Route("{id}")]
         [HttpGet]
         public IActionResult GetOneCarSpeedStatistic(int id)

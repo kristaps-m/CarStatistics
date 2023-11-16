@@ -9,16 +9,27 @@ int dataAddedCount = 0;
 //var listOfLineCountsInFile = new int[] {50000, 100000,150000,200000 };
 var listOfLineCountsInFile = new int[] { 15, 30, 60, 80 };
 
-foreach (var carSpeedData in carSpeedDataList)
+bool loadAllDataFromTextFile = false;
+
+if (loadAllDataFromTextFile)
 {
-    //await AddCarSpeedDataAsync(carSpeedData); // uncomment this to add data to SQL DB
-    dataAddedCount++;
-    if (listOfLineCountsInFile.Contains(dataAddedCount))
+    foreach (var carSpeedData in carSpeedDataList)
     {
-        Console.WriteLine($"Added  - {dataAddedCount} - records to SQL data base!");
+        await AddCarSpeedDataAsync(carSpeedData); // uncomment this to add data to SQL DB
+        dataAddedCount++;
+        if (listOfLineCountsInFile.Contains(dataAddedCount))
+        {
+            Console.WriteLine($"Added  - {dataAddedCount} - records to SQL data base!");
+        }
     }
+    Console.WriteLine("It is all done!");
 }
-Console.WriteLine("It is all done!");
+else
+{
+    Console.WriteLine($"DATA IS NOT LOADED FOR SAFETY REASONS! Variable loadAllDataFromTextFile is {loadAllDataFromTextFile}");
+}
+
+
 
 static async Task AddCarSpeedDataAsync(CarSpeedStatistic carSpeedData)
 {

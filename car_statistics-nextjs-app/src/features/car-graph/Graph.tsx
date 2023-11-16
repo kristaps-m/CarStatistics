@@ -3,6 +3,7 @@ import { VictoryChart } from "victory-chart/lib/victory-chart";
 import { CarStatistic } from "../../app/models/CarStatistic";
 import agent from "../../app/api/agent";
 import { VictoryAxis, VictoryLine, VictoryTheme } from "victory";
+import { useDebounce } from "use-debounce";
 
 const data = [
   { hour: 0, speed: 69 },
@@ -38,20 +39,95 @@ const data = [
 //   { hour: 2, speed: 69 },
 //   // ... other data points ...
 // ];
+interface Yolo {
+  hour: number;
+  speed: number;
+}
+
+interface avg {
+  hour: number;
+  avgSpeeds: number[];
+}
+
+// class X {
+//   hour: number;
+//   speed: number;
+
+//   constructor(hour: number, speed: number) {
+//     this.hour = hour;
+//     this.speed = speed;
+//   }
+// }
+/* Example return
+  we need
+  [
+    {hour: 1, avgSpeeds: [1,2,3,4]}
+  ]
+  NOT?
+  {
+    1: [13,22,444],
+    2: [55,66,77],
+  }
+
+*/
+
+// function generateList(theSize:number) {
+//   let result:X[] = [];
+//   for (let index = 0; index < theSize; index++) {
+//     result.push = new X(index, 0);
+//   }
+
+//   return result;
+// }
+
+// function wowFunction(dataIn: CarStatistic[]): avg {
+//   // let theList: number[] = [];
+//   // let theGreatTest: avg = {hour: 1, avgSpeeds:[]};
+//   let theGreatTest: any;
+//   dataIn.forEach((element) => {
+//     const hour = new Date(element.carSpeedDate).getHours();
+//     theGreatTest.hour = hour;
+//     theGreatTest.avgSpeeds.push(hour);
+//     // theGreatTest[hour] = "1";
+//   });
+
+//   return theGreatTest;
+// }
+
+// function calculateAvg(dataIn: avg) {
+//   let avgResults: X[] = []
+//   dataIn.forEach((element) => {});
+// }
 
 export default function Graph() {
-  const [carStatistics, setProducts] = useState<CarStatistic[]>([]);
+  const [carStatistics, setYolo] = useState<Yolo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [carDateFrom, setCarDateFrom] = useState("");
+  const [searchCarDateFrom] = useDebounce(carDateFrom, 2000); // 2 seconds
+  const handleReset3 = () => {
+    setCarDateFrom("");
+  };
+
+  // useEffect(() => {
+  //   agent.Catalog.list()
+  //     .then((data) => {
+  //       setProducts(data);
+  //     })
+  //     .catch((error) => console.error(error))
+  //     .finally(() => setLoading(false));
+  // }, []);
 
   useEffect(() => {
-    agent.Catalog.list()
+    agent.Catalog.getByDate(searchCarDateFrom)
       .then((data) => {
-        setProducts(data);
+        setYolo(data);
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
-  }, []);
+  }, [searchCarDateFrom]);
 
+  // const theHoursList = wowFunction(carStatistics);
+  console.log(carStatistics, searchCarDateFrom, "------------carStatistics");
   return (
     <div data-testid="homePage-1">
       <h1 className="flex justify-center text-3xl font-bold mb-4">
@@ -60,26 +136,52 @@ export default function Graph() {
       <p className="flex justify-center text-lg text-center mb-8">
         Explore our wide range of high-quality products.
       </p>
-      <h1>
+      {/* <h1>
         {loading
           ? "Hello"
-          : `${carStatistics[0].carRegistrationNumber},
-          ${carStatistics[0].carSpeedDate}`}
-      </h1>
+          : `${carStatistics[0].hour},
+          ${carStatistics[0].speed}`}
+      </h1> */}
+      <div className="flex justify-center">
+        <input
+          type="date"
+          value={carDateFrom}
+          placeholder="Search date from..."
+          onChange={(e) => {
+            setCarDateFrom(e.target.value);
+          }}
+          className="w-64 px-4 py-2 rounded-full border border-gray-300 focus:ring focus:ring-blue-200"
+        />
+        <button
+          onClick={handleReset3}
+          className="ml-2 px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
+        >
+          Reset Date from
+        </button>
+      </div>
+      {/* <div>
+        {loading
+          ? "Loading"
+          : theHoursList.map((oneNum) => <p key={oneNum}>{oneNum}</p>)}
+      </div> */}
       <br />
       <br />
-      <VictoryChart theme={VictoryTheme.material}>
-        <VictoryLine
-          data={data}
-          x="hour" // Assuming your data has a property called "hour" for the x-axis
-          y="speed" // Assuming your data has a property called "speed" for the y-axis
-        />
-        <VictoryAxis
-          label="Hours"
-          tickFormat={(t) => `${t}:00`} // Customize the x-axis tick labels as needed
-        />
-        <VictoryAxis dependentAxis label="Speed" />
-      </VictoryChart>
+      {loading ? (
+        "Graph is loading"
+      ) : (
+        <VictoryChart theme={VictoryTheme.material}>
+          <VictoryLine
+            data={carStatistics}
+            x="hour" // Assuming your data has a property called "hour" for the x-axis
+            y="speed" // Assuming your data has a property called "speed" for the y-axis
+          />
+          <VictoryAxis
+            label="Hours"
+            tickFormat={(t) => `${t}:00`} // Customize the x-axis tick labels as needed
+          />
+          <VictoryAxis dependentAxis label="Speed" />
+        </VictoryChart>
+      )}
       {/* <VictoryChart
         height={300}
         width={300}
