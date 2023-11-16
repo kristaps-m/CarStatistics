@@ -1,4 +1,4 @@
-import Catalog from "../src/features/product/Catalog";
+import Catalog from "../src/features/car-statistic/Catalog";
 
 const ProductsPage = () => {
   return (

@@ -1,4 +1,3 @@
-import ProductList from "./ProductList";
 import { NavigationButtons } from "@/app/NavigationButtons";
 import CarStatisticTable from "./CarStatisticTable";
 
@@ -7,7 +6,6 @@ export default function Catalog() {
     <div data-testid="catalog-1">
       <NavigationButtons />
       <div className="flex justify-center">
-        {/* <ProductList /> */}
         <CarStatisticTable />
       </div>
     </div>

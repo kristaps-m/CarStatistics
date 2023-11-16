@@ -9,7 +9,7 @@ export const NavigationButtons = () => {
           Home
         </div>
       </Link>
-      <Link href="/products">
+      <Link href="/car-statistics">
         <div className="bg-blue-500 text-white py-2 px-4 rounded border-none cursor-pointer hover:bg-blue-700 transition duration-300">
           Catalog
         </div>

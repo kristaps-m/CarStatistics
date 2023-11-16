@@ -214,6 +214,7 @@ export default function ProductList() {
                 </th>
                 <th className="px-4 py-2">CarSpeed</th>
                 <th className="px-4 py-2">CarRegistrationNumber</th>
+                <th className="px-4 py-2">View</th>
               </tr>
             </thead>
             <tbody>

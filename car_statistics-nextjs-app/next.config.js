@@ -7,8 +7,8 @@ module.exports = {
   async rewrites() {
     return [
       {
-        source: '/products',
-        destination: '/src/features/product/Catalog',
+        source: '/car-statistics',
+        destination: '/src/features/car-statistics/Catalog',
       },
     ];
   },
