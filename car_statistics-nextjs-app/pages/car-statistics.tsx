@@ -1,6 +1,6 @@
 import Catalog from "../src/features/car-statistic/Catalog";
 
-const ProductsPage = () => {
+const CarStatisticsPage = () => {
   return (
     <div>
       <Catalog />
@@ -8,4 +8,4 @@ const ProductsPage = () => {
   );
 };
 
-export default ProductsPage;
+export default CarStatisticsPage;
