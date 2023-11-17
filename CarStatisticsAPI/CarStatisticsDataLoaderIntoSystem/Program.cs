@@ -1,67 +1,45 @@
 ﻿using CarStatistics.Core.models;
-using Newtonsoft.Json;
-using System.Text;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 string MAIN_PATH = Directory.GetCurrentDirectory().Replace("bin\\Debug\\net6.0", "");
+string THE_FILE_NAME = "speed.txt";
 
-List<CarSpeedStatistic> carSpeedDataList = GetYourData(MAIN_PATH);
-int dataAddedCount = 0;
-//var listOfLineCountsInFile = new int[] {50000, 100000,150000,200000 };
-var listOfLineCountsInFile = new int[] { 15, 30, 60, 80 };
+List<CarSpeedStatistic> carSpeedDataList = GetYourData(MAIN_PATH, THE_FILE_NAME);
+var dataListLength = carSpeedDataList.Count;
 
-bool loadAllDataFromTextFile = false; // To load data set this variable to true.
+Console.WriteLine("Hello World!");
+// This is connection string from \CarStatistics\CarStatisticsAPI\CarStatisticsAPI\appsettings.json
+string connectionString = "Data Source=.;Initial Catalog=CarStatistics;Integrated Security=True;";
+using var connection = new SqlConnection(connectionString);
 
-if (loadAllDataFromTextFile)
+var theTable = new DataTable();
+theTable.Columns.Add("Id");
+theTable.Columns.Add("CarSpeedDate");
+theTable.Columns.Add("CarSpeed");
+theTable.Columns.Add("CarRegistrationNumber");
+
+for (int i = 0; i < dataListLength; i++)
 {
-    foreach (var carSpeedData in carSpeedDataList)
-    {
-        await AddCarSpeedDataAsync(carSpeedData);
-        dataAddedCount++;
-        if (listOfLineCountsInFile.Contains(dataAddedCount))
-        {
-            Console.WriteLine($"Added  - {dataAddedCount} - records to SQL data base!");
-        }
-    }
-    Console.WriteLine("It is all done!");
-}
-else
-{
-    Console.WriteLine($"DATA IS NOT LOADED FOR SAFETY REASONS! Variable loadAllDataFromTextFile is {loadAllDataFromTextFile}");
+    var cDate = carSpeedDataList[i].CarSpeedDate;
+    var cSpeed = carSpeedDataList[i].CarSpeed;
+    var cRegNr = carSpeedDataList[i].CarRegistrationNumber;
+    theTable.Rows.Add(new object[] {i+1, cDate, cSpeed, cRegNr});
 }
 
+using var bulkCopy = new SqlBulkCopy(connection);
+bulkCopy.DestinationTableName = "CarSpeedStatistics";
+bulkCopy.BatchSize = dataListLength;
+bulkCopy.BulkCopyTimeout = 40 * 60;
+connection.Open();
+await bulkCopy.WriteToServerAsync(theTable);
 
+Console.WriteLine("End connection");
 
-static async Task AddCarSpeedDataAsync(CarSpeedStatistic carSpeedData)
+static List<CarSpeedStatistic> GetYourData(string mainPath, string theFileName)
 {
-    string apiUrl = "https://localhost:5000/api/carspeedstatistic/add";
-
-    using (HttpClient client = new HttpClient())
-    {
-        // Convert object to JSON
-        string jsonData = JsonConvert.SerializeObject(carSpeedData);
-
-        // Create HttpContent with JSON data
-        StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-        // Send the POST request
-        HttpResponseMessage response = await client.PostAsync(apiUrl, content);
-
-        // Check if the request was successful
-        if (response.IsSuccessStatusCode)
-        {
-            //Console.WriteLine($"Data added successfully for Car Registration Number: {carSpeedData.CarRegistrationNumber}");
-        }
-        else
-        {
-            Console.WriteLine($"Failed to add data for Car Registration Number: {carSpeedData.CarRegistrationNumber}. StatusCode: {response.StatusCode}");
-        }
-    }
-}
-
-static List<CarSpeedStatistic> GetYourData(string main_path)
-{
-    string carStatisticsFileName = "data_test.txt";
-    string carStatisticFilePath = Path.Combine(main_path, carStatisticsFileName);
+    string carStatisticsFileName = theFileName;
+    string carStatisticFilePath = Path.Combine(mainPath, carStatisticsFileName);
 
     Console.WriteLine("Hello, World!");
     var lines = File.ReadAllLines(carStatisticFilePath);
