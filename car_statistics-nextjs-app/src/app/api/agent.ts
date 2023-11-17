@@ -1,10 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 
-// axios.defaults.baseURL =
-//   "https://run.mocky.io/v3/b54fe93f-f5a1-426b-a76c-e43d246901fd";
-// https://localhost:5000/api/CarSpeedStatistic/get-bydate?searchByDate=2020-08-01
-axios.defaults.baseURL = "https://localhost:5000/api/CarSpeedStatistic/";
+axios.defaults.baseURL = "https://localhost:5000/api/carspeedstatistic/";
 const responseBody = (response: AxiosResponse) => response.data;
 
 axios.interceptors.response.use(
@@ -52,7 +49,7 @@ const Catalog = {
   list: () => requests.get("get-all"),
   details: (id: number) => requests.get(`${id}`),
   getByDate: (theDate: string) =>
-    requests.get(`get-bydate?searchByDate=${theDate}`),
+    requests.get(`get-avgspeed-bydate?searchByDate=${theDate}`),
 };
 
 const agent = {

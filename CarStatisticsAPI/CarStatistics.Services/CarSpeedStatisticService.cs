@@ -11,70 +11,81 @@ namespace CarStatistics.Services
         {
             
         }
-        // avg speed example [{ hour: 0, speed: 69 }]
-        // i get get hours from date
-        // I can get speed from item
-        // can i get {1 : [1,2,3,5]}
-        // { id: 1, carSpeedDate: '2020-08-01 00:04:35', carSpeed: 70, carRegistrationNumber: 'SP8224' },
-        public List<Yolo> GetTheThings(DateTime searchData)
-        {
-            var result = new List<Yolo>();
 
-            foreach (var item in _thisIsForStoring)
+        public List<CarAverageSpeedResultsInDay> CalculateAverageSpeedByHourInDay(DateTime dayToGetAvgSpeedResults)
+        {
+            var result = new List<CarAverageSpeedResultsInDay>();
+
+            foreach (var itemOfOneHour in _carSpeedsForEachHourOfDay)
             {
                 foreach (var oneCarStatistic in _context.CarSpeedStatistics)
                 {
-                    if (oneCarStatistic.CarSpeedDate.Date == searchData.Date &&
-                        item.Key == oneCarStatistic.CarSpeedDate.Hour)
+                    if (oneCarStatistic.CarSpeedDate.Date == dayToGetAvgSpeedResults.Date &&
+                        itemOfOneHour.Key == oneCarStatistic.CarSpeedDate.Hour)
                     {
-                        item.Value.Add(oneCarStatistic.CarSpeed);
+                        itemOfOneHour.Value.Add(oneCarStatistic.CarSpeed);
                     }
                 }
             }
 
-            foreach (var item in _thisIsForStoring)
+            foreach (var item in _carSpeedsForEachHourOfDay)
             {
-                //var test = string.Join(",", item.Value);
                 if(item.Value.Count != 0)
                 {
-                    var theAvgSpeed = item.Value.Sum() / item.Value.Count;
-                    result.Add(new Yolo(item.Key, theAvgSpeed));
+                    double theAvgSpeed = Math.Round((double)item.Value.Sum() / item.Value.Count, 2);
+                    result.Add(new CarAverageSpeedResultsInDay(item.Key, theAvgSpeed));
                 }
                 else
                 {
-                    result.Add(new Yolo(item.Key, 0));
+                    result.Add(new CarAverageSpeedResultsInDay(item.Key, 0));
                 }
             }
 
             return result;
         }
 
-        private Dictionary<int, List<int>> _thisIsForStoring = new Dictionary<int, List<int>>()
+        public CarSpeedStatistic UpdateCarSpeedStatistic(CarSpeedStatistic carSpeedStatistic, int id)
         {
-            { 0, new List<int> {}},
-            { 1, new List<int> {}},
-            { 2, new List<int> {}},
-            { 3, new List<int> {}},
-            { 4, new List<int> {}},
-            { 5, new List<int> {}},
-            { 6, new List<int> {}},
-            { 7, new List<int> {}},
-            { 8, new List<int> {}},
-            { 9, new List<int> {}},
-            { 10, new List<int> {}},
-            { 11, new List<int> {}},
-            { 12, new List<int> {}},
-            { 13, new List<int> {}},
-            { 14, new List<int> {}},
-            { 15, new List<int> {}},
-            { 16, new List<int> {}},
-            { 17, new List<int> {}},
-            { 18, new List<int> {}},
-            { 19, new List<int> {}},
-            { 20, new List<int> {}},
-            { 21, new List<int> {}},
-            { 22, new List<int> {}},
-            { 23, new List<int> {}},
+            var carSpeedStatisticToUpdate = _context.CarSpeedStatistics.SingleOrDefault(h => h.Id == id);
+
+            if (carSpeedStatisticToUpdate != null)
+            {
+                carSpeedStatisticToUpdate.CarSpeedDate = carSpeedStatistic.CarSpeedDate;
+                carSpeedStatisticToUpdate.CarSpeed = carSpeedStatistic.CarSpeed;
+                carSpeedStatisticToUpdate.CarRegistrationNumber = carSpeedStatistic.CarRegistrationNumber;
+                _context.Entry(carSpeedStatisticToUpdate).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
+            }
+
+            return carSpeedStatisticToUpdate;
+        }
+
+        private readonly Dictionary<int, List<double>> _carSpeedsForEachHourOfDay = new()
+        {
+            { 0, new List<double> {}},
+            { 1, new List<double> {}},
+            { 2, new List<double> {}},
+            { 3, new List<double> {}},
+            { 4, new List<double> {}},
+            { 5, new List<double> {}},
+            { 6, new List<double> {}},
+            { 7, new List<double> {}},
+            { 8, new List<double> {}},
+            { 9, new List<double> {}},
+            { 10, new List<double> {}},
+            { 11, new List<double> {}},
+            { 12, new List<double> {}},
+            { 13, new List<double> {}},
+            { 14, new List<double> {}},
+            { 15, new List<double> {}},
+            { 16, new List<double> {}},
+            { 17, new List<double> {}},
+            { 18, new List<double> {}},
+            { 19, new List<double> {}},
+            { 20, new List<double> {}},
+            { 21, new List<double> {}},
+            { 22, new List<double> {}},
+            { 23, new List<double> {}},
         };
     }
 }

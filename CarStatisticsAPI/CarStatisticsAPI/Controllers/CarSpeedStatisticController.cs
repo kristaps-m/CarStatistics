@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarStatisticsAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/carspeedstatistic")]
     [ApiController]
     public class CarSpeedStatisticController : ControllerBase
     {
@@ -28,10 +28,12 @@ namespace CarStatisticsAPI.Controllers
         [HttpPut]
         public IActionResult UpdateCarSpeedStatistic(int id, CarSpeedStatistic newCarSpeedStatistic)
         {
-            var carSpeedStatisticToUpdate = _carSpeedStatisticService.GetById(id);
-            carSpeedStatisticToUpdate.CarSpeedDate = newCarSpeedStatistic.CarSpeedDate;
-            carSpeedStatisticToUpdate.CarSpeed = newCarSpeedStatistic.CarSpeed;
-            carSpeedStatisticToUpdate.CarRegistrationNumber = newCarSpeedStatistic.CarRegistrationNumber;
+            var carSpeedStatisticToUpdate = _carSpeedStatisticService.UpdateCarSpeedStatistic(newCarSpeedStatistic, id);
+            
+            if (carSpeedStatisticToUpdate == null)
+            {
+                return NotFound();
+            }
 
             return Created("", carSpeedStatisticToUpdate);
         }
@@ -55,11 +57,11 @@ namespace CarStatisticsAPI.Controllers
             return Ok(allCarSpeedStatistic);
         }
 
-        [Route("get-bydate")]
+        [Route("get-avgspeed-bydate")]
         [HttpGet]
         public IActionResult GetAllCarSpeedStatisticByDate(DateTime searchByDate)
         {
-            var allCarSpeedStatistic = _carSpeedStatisticService.GetTheThings(searchByDate);
+            var allCarSpeedStatistic = _carSpeedStatisticService.CalculateAverageSpeedByHourInDay(searchByDate);
 
             return Ok(allCarSpeedStatistic);
         }

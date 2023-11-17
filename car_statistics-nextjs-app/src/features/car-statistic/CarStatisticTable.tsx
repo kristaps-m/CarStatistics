@@ -20,25 +20,25 @@ export default function ProductList() {
   // DEBOUNCE Car Reg Nr
   const [text, setText] = useState("");
   const [searchRegNr] = useDebounce(text, 2000); // 2 seconds
-  const handleReset = () => {
+  const handleCarRegNrReset = () => {
     setText("");
   };
   // DEBOUNCE Car speed
   const [carNr, setCarNr] = useState(0);
   const [searchByCarSpeed] = useDebounce(carNr, 2000); // 2 seconds
-  const handleReset2 = () => {
+  const handleSpeedSearchReset = () => {
     setCarNr(0);
   };
   // DEBOUNCE Date from
   const [carDateFrom, setCarDateFrom] = useState("");
   const [searchCarDateFrom] = useDebounce(carDateFrom, 2000); // 2 seconds
-  const handleReset3 = () => {
+  const handleDateFromReset = () => {
     setCarDateFrom("");
   };
   // DEBOUNCE Date to
   const [carDateTo, setCarDateTo] = useState("");
   const [searchCarDateTo] = useDebounce(carDateTo, 2000); // 2 seconds
-  const handleReset4 = () => {
+  const handleDateToReset = () => {
     setCarDateTo("");
   };
 
@@ -136,7 +136,7 @@ export default function ProductList() {
           className="w-64 px-4 py-2 rounded-full border border-gray-300 focus:ring focus:ring-blue-200"
         />
         <button
-          onClick={handleReset4}
+          onClick={handleDateToReset}
           className="ml-2 px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
         >
           Reset Date to
@@ -155,7 +155,7 @@ export default function ProductList() {
           className="w-64 px-4 py-2 rounded-full border border-gray-300 focus:ring focus:ring-blue-200"
         />
         <button
-          onClick={handleReset3}
+          onClick={handleDateFromReset}
           className="ml-2 px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
         >
           Reset Date from
@@ -174,7 +174,7 @@ export default function ProductList() {
           className="w-64 px-4 py-2 rounded-full border border-gray-300 focus:ring focus:ring-blue-200"
         />
         <button
-          onClick={handleReset2}
+          onClick={handleSpeedSearchReset}
           className="ml-2 px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
         >
           Reset Speed
@@ -193,7 +193,7 @@ export default function ProductList() {
           className="w-64 px-4 py-2 rounded-full border border-gray-300 focus:ring focus:ring-blue-200"
         />
         <button
-          onClick={handleReset}
+          onClick={handleCarRegNrReset}
           className="ml-2 px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
         >
           Reset Car Nr

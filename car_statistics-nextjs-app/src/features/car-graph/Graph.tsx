@@ -30,92 +30,48 @@ const data = [
   { hour: 21, speed: 95 },
   { hour: 22, speed: 62 },
   { hour: 23, speed: 57 },
-  { hour: 24, speed: 67 },
 ];
 
-// const data = [
-//   { hour: 0, speed: 70 },
-//   { hour: 1, speed: 69 },
-//   { hour: 2, speed: 69 },
-//   // ... other data points ...
-// ];
-interface Yolo {
+const dataFloat = [
+  { hour: 0, speed: 20.86 },
+  { hour: 1, speed: 11.37 },
+  { hour: 2, speed: 51.03 },
+  { hour: 3, speed: 44.89 },
+  { hour: 4, speed: 71.05 },
+  { hour: 5, speed: 60.06 },
+  { hour: 6, speed: 47.35 },
+  { hour: 7, speed: 40.58 },
+  { hour: 8, speed: 53.52 },
+  { hour: 9, speed: 38.95 },
+  { hour: 10, speed: 41.32 },
+  { hour: 11, speed: 52.92 },
+  { hour: 12, speed: 54.46 },
+  { hour: 13, speed: 60.44 },
+  { hour: 14, speed: 52.1 },
+  { hour: 15, speed: 23.16 },
+  { hour: 16, speed: 51.86 },
+  { hour: 17, speed: 6.2 },
+  { hour: 18, speed: 96.55 },
+  { hour: 19, speed: 2.02 },
+  { hour: 20, speed: 71.85 },
+  { hour: 21, speed: 46.89 },
+  { hour: 22, speed: 60.23 },
+  { hour: 23, speed: 25.42 },
+];
+
+interface CarAverageSpeedResultsInDay {
   hour: number;
   speed: number;
 }
 
-interface avg {
-  hour: number;
-  avgSpeeds: number[];
-}
-
-// class X {
-//   hour: number;
-//   speed: number;
-
-//   constructor(hour: number, speed: number) {
-//     this.hour = hour;
-//     this.speed = speed;
-//   }
-// }
-/* Example return
-  we need
-  [
-    {hour: 1, avgSpeeds: [1,2,3,4]}
-  ]
-  NOT?
-  {
-    1: [13,22,444],
-    2: [55,66,77],
-  }
-
-*/
-
-// function generateList(theSize:number) {
-//   let result:X[] = [];
-//   for (let index = 0; index < theSize; index++) {
-//     result.push = new X(index, 0);
-//   }
-
-//   return result;
-// }
-
-// function wowFunction(dataIn: CarStatistic[]): avg {
-//   // let theList: number[] = [];
-//   // let theGreatTest: avg = {hour: 1, avgSpeeds:[]};
-//   let theGreatTest: any;
-//   dataIn.forEach((element) => {
-//     const hour = new Date(element.carSpeedDate).getHours();
-//     theGreatTest.hour = hour;
-//     theGreatTest.avgSpeeds.push(hour);
-//     // theGreatTest[hour] = "1";
-//   });
-
-//   return theGreatTest;
-// }
-
-// function calculateAvg(dataIn: avg) {
-//   let avgResults: X[] = []
-//   dataIn.forEach((element) => {});
-// }
-
 export default function Graph() {
-  const [carStatistics, setYolo] = useState<Yolo[]>([]);
+  const [carStatistics, setYolo] = useState<CarAverageSpeedResultsInDay[]>([]);
   const [loading, setLoading] = useState(true);
   const [carDateFrom, setCarDateFrom] = useState("");
-  const [searchCarDateFrom] = useDebounce(carDateFrom, 2000); // 2 seconds
+  const [searchCarDateFrom] = useDebounce(carDateFrom, 1000); // 1 seconds
   const handleReset3 = () => {
     setCarDateFrom("");
   };
-
-  // useEffect(() => {
-  //   agent.Catalog.list()
-  //     .then((data) => {
-  //       setProducts(data);
-  //     })
-  //     .catch((error) => console.error(error))
-  //     .finally(() => setLoading(false));
-  // }, []);
 
   useEffect(() => {
     agent.Catalog.getByDate(searchCarDateFrom)
@@ -126,7 +82,6 @@ export default function Graph() {
       .finally(() => setLoading(false));
   }, [searchCarDateFrom]);
 
-  // const theHoursList = wowFunction(carStatistics);
   console.log(carStatistics, searchCarDateFrom, "------------carStatistics");
   return (
     <div data-testid="homePage-1">
@@ -136,12 +91,6 @@ export default function Graph() {
       <p className="flex justify-center text-lg text-center mb-8">
         Explore our wide range of high-quality products.
       </p>
-      {/* <h1>
-        {loading
-          ? "Hello"
-          : `${carStatistics[0].hour},
-          ${carStatistics[0].speed}`}
-      </h1> */}
       <div className="flex justify-center">
         <input
           type="date"
@@ -159,11 +108,6 @@ export default function Graph() {
           Reset Date from
         </button>
       </div>
-      {/* <div>
-        {loading
-          ? "Loading"
-          : theHoursList.map((oneNum) => <p key={oneNum}>{oneNum}</p>)}
-      </div> */}
       <br />
       <br />
       {loading ? (
@@ -171,9 +115,9 @@ export default function Graph() {
       ) : (
         <VictoryChart theme={VictoryTheme.material}>
           <VictoryLine
-            data={carStatistics}
-            x="hour" // Assuming your data has a property called "hour" for the x-axis
-            y="speed" // Assuming your data has a property called "speed" for the y-axis
+            data={carStatistics} // carStatistics
+            x="hour"
+            y="speed"
           />
           <VictoryAxis
             label="Hours"
@@ -182,15 +126,6 @@ export default function Graph() {
           <VictoryAxis dependentAxis label="Speed" />
         </VictoryChart>
       )}
-      {/* <VictoryChart
-        height={300}
-        width={300}
-        domain={[-1, 1]}
-        style={{
-          background: { fill: "pink" },
-        }}
-        // backgroundComponent={<Background y={20} height={100} />}
-      /> */}
       <br />
       <br />
       <div className="product p-4 bg-white rounded-lg shadow-lg max-w-[80%]">

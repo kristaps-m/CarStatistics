@@ -9,13 +9,13 @@ int dataAddedCount = 0;
 //var listOfLineCountsInFile = new int[] {50000, 100000,150000,200000 };
 var listOfLineCountsInFile = new int[] { 15, 30, 60, 80 };
 
-bool loadAllDataFromTextFile = false;
+bool loadAllDataFromTextFile = false; // To load data set this variable to true.
 
 if (loadAllDataFromTextFile)
 {
     foreach (var carSpeedData in carSpeedDataList)
     {
-        await AddCarSpeedDataAsync(carSpeedData); // uncomment this to add data to SQL DB
+        await AddCarSpeedDataAsync(carSpeedData);
         dataAddedCount++;
         if (listOfLineCountsInFile.Contains(dataAddedCount))
         {
@@ -33,7 +33,7 @@ else
 
 static async Task AddCarSpeedDataAsync(CarSpeedStatistic carSpeedData)
 {
-    string apiUrl = "https://localhost:5000/api/CarSpeedStatistic/add";
+    string apiUrl = "https://localhost:5000/api/carspeedstatistic/add";
 
     using (HttpClient client = new HttpClient())
     {

@@ -5,6 +5,7 @@ namespace CarStatistics.Core.Interfaces
 {
     public interface ICarSpeedStatisticService : IEntityService<CarSpeedStatistic>
     {
-        List<Yolo> GetTheThings(DateTime searchData);
+        List<CarAverageSpeedResultsInDay> CalculateAverageSpeedByHourInDay(DateTime searchData);
+        CarSpeedStatistic UpdateCarSpeedStatistic(CarSpeedStatistic carSpeedStatistic, int id);
     }
 }
