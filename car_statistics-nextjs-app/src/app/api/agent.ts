@@ -50,6 +50,14 @@ const Catalog = {
   details: (id: number) => requests.get(`${id}`),
   getByDate: (theDate: string) =>
     requests.get(`get-avgspeed-bydate?searchByDate=${theDate}`),
+  getObjectsBySpeedDatefromDateuntill: (
+    speed: string,
+    dateFrom: string,
+    dateUntil: string
+  ) =>
+    requests.get(
+      `get?speed=${speed}&dateFrom=${dateFrom}&dateUntil=${dateUntil}`
+    ),
 };
 
 const agent = {

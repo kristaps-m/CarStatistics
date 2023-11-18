@@ -9,97 +9,47 @@ function ToDate(dateString: string) {
   return new Date(dateString);
 }
 
+const searchDelayinMS = 2500;
+
 export default function ProductList() {
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+  const pageSize = 20;
   const onPageChange = (page: number) => {
     setCurrentPage(page);
   };
   const [carStatistics, setCarStatistics] = useState<CarStatistic[]>([]);
   const [loading, setLoading] = useState(true);
-  // DEBOUNCE Car Reg Nr
-  const [text, setText] = useState("");
-  const [searchRegNr] = useDebounce(text, 2000); // 2 seconds
-  const handleCarRegNrReset = () => {
-    setText("");
-  };
   // DEBOUNCE Car speed
-  const [carNr, setCarNr] = useState(0);
-  const [searchByCarSpeed] = useDebounce(carNr, 2000); // 2 seconds
+  const [carSpeed, setCarSpeed] = useState("");
+  const [searchByCarSpeed] = useDebounce(carSpeed, searchDelayinMS);
   const handleSpeedSearchReset = () => {
-    setCarNr(0);
+    setCarSpeed("");
   };
   // DEBOUNCE Date from
   const [carDateFrom, setCarDateFrom] = useState("");
-  const [searchCarDateFrom] = useDebounce(carDateFrom, 2000); // 2 seconds
+  const [searchCarDateFrom] = useDebounce(carDateFrom, searchDelayinMS);
   const handleDateFromReset = () => {
     setCarDateFrom("");
   };
   // DEBOUNCE Date to
-  const [carDateTo, setCarDateTo] = useState("");
-  const [searchCarDateTo] = useDebounce(carDateTo, 2000); // 2 seconds
+  const [carDateUntill, setCarDateTo] = useState("");
+  const [searchCarDateUntil] = useDebounce(carDateUntill, searchDelayinMS);
   const handleDateToReset = () => {
     setCarDateTo("");
   };
 
   useEffect(() => {
-    agent.Catalog.list()
-      .then((carStatistics) => {
-        let filteredCarStatistics;
-        console.log(
-          searchCarDateFrom == "",
-          isNaN(Date.parse(searchCarDateFrom)),
-          searchCarDateTo == "",
-          isNaN(Date.parse(searchCarDateTo))
-        );
-        // IF both dates empty search for car number and speed
-        if (searchCarDateFrom == "" && searchCarDateTo == "") {
-          filteredCarStatistics = carStatistics.filter(
-            (oneCarStatistic: CarStatistic) =>
-              oneCarStatistic.carRegistrationNumber
-                .toLowerCase()
-                .includes(searchRegNr.toLowerCase()) &&
-              oneCarStatistic.carSpeed >= searchByCarSpeed
-          );
-        } else if (searchCarDateFrom != "" && searchCarDateTo != "") {
-          filteredCarStatistics = carStatistics.filter(
-            (oneCarStatistic: CarStatistic) =>
-              oneCarStatistic.carRegistrationNumber
-                .toLowerCase()
-                .includes(searchRegNr.toLowerCase()) &&
-              oneCarStatistic.carSpeed >= searchByCarSpeed &&
-              Date.parse(oneCarStatistic.carSpeedDate) >
-                Date.parse(searchCarDateFrom) &&
-              Date.parse(oneCarStatistic.carSpeedDate) <=
-                Date.parse(searchCarDateTo)
-          );
-        } else if (searchCarDateFrom != "") {
-          filteredCarStatistics = carStatistics.filter(
-            (oneCarStatistic: CarStatistic) =>
-              oneCarStatistic.carRegistrationNumber
-                .toLowerCase()
-                .includes(searchRegNr.toLowerCase()) &&
-              oneCarStatistic.carSpeed >= searchByCarSpeed &&
-              Date.parse(oneCarStatistic.carSpeedDate) >
-                Date.parse(searchCarDateFrom)
-          );
-        } else if (searchCarDateTo != "") {
-          filteredCarStatistics = carStatistics.filter(
-            (oneCarStatistic: CarStatistic) =>
-              oneCarStatistic.carRegistrationNumber
-                .toLowerCase()
-                .includes(searchRegNr.toLowerCase()) &&
-              oneCarStatistic.carSpeed >= searchByCarSpeed &&
-              Date.parse(oneCarStatistic.carSpeedDate) <=
-                Date.parse(searchCarDateTo)
-          );
-        }
-
-        setCarStatistics(filteredCarStatistics);
+    agent.Catalog.getObjectsBySpeedDatefromDateuntill(
+      searchByCarSpeed,
+      searchCarDateFrom,
+      searchCarDateUntil
+    )
+      .then((data) => {
+        setCarStatistics(data);
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
-  }, [searchByCarSpeed, searchRegNr, searchCarDateFrom, searchCarDateTo]);
+  }, [searchByCarSpeed, searchCarDateFrom, searchCarDateUntil]);
 
   const paginatedPosts: CarStatistic[] = paginate(
     carStatistics,
@@ -107,41 +57,19 @@ export default function ProductList() {
     pageSize
   );
   console.log(
-    `Speed = ${searchByCarSpeed}, From = ${searchCarDateFrom}, To = ${searchCarDateTo}, Len = ${
+    `Speed = ${searchByCarSpeed}, From = ${searchCarDateFrom}, To = ${searchCarDateUntil}, Len = ${
       carStatistics.length
     }\n From.P = ${Date.parse(searchCarDateFrom)}, To.P = ${Date.parse(
-      searchCarDateTo
+      searchCarDateUntil
     )},\n From.ToDate = ${ToDate(searchCarDateFrom)}, To.ToDate = ${ToDate(
-      searchCarDateTo
-    )}`
+      searchCarDateUntil
+    )}
+    \n${carSpeed}
+    `
   );
-  // 2020-08-01 00:07:55
-  console.log(
-    ToDate("2020-08-01T00:07:55"),
-    Date.parse("2020-08-01T00:07:55"),
-    "2020-08-01 00:07:55"
-  );
+
   return (
     <div data-testid="productList-1">
-      {/* DATE to ---------------------------------------------------------------------------- */}
-      <div className="flex justify-center">
-        <input
-          type="date"
-          value={carDateTo}
-          placeholder="Search date to..."
-          onChange={(e) => {
-            setCarDateTo(e.target.value);
-            setCurrentPage(1); // Reset currentPage to 1 when searching
-          }}
-          className="w-64 px-4 py-2 rounded-full border border-gray-300 focus:ring focus:ring-blue-200"
-        />
-        <button
-          onClick={handleDateToReset}
-          className="ml-2 px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
-        >
-          Reset Date to
-        </button>
-      </div>
       {/* DATE from ---------------------------------------------------------------------------- */}
       <div className="flex justify-center">
         <input
@@ -161,14 +89,34 @@ export default function ProductList() {
           Reset Date from
         </button>
       </div>
+      {/* DATE to ---------------------------------------------------------------------------- */}
+      <div className="flex justify-center">
+        <input
+          type="date"
+          value={carDateUntill}
+          placeholder="Search date to..."
+          onChange={(e) => {
+            setCarDateTo(e.target.value);
+            setCurrentPage(1); // Reset currentPage to 1 when searching
+          }}
+          className="w-64 px-4 py-2 rounded-full border border-gray-300 focus:ring focus:ring-blue-200"
+        />
+        <button
+          onClick={handleDateToReset}
+          className="ml-2 px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
+        >
+          Reset Date to
+        </button>
+      </div>
+
       {/* SPEED -------------------------------------------------------------------------------- */}
       <div className="flex justify-center">
         <input
-          type="number"
-          value={carNr}
+          type="text"
+          value={carSpeed}
           placeholder="Speed > or equal to.."
           onChange={(e) => {
-            setCarNr(parseInt(e.target.value));
+            setCarSpeed(e.target.value);
             setCurrentPage(1); // Reset currentPage to 1 when searching
           }}
           className="w-64 px-4 py-2 rounded-full border border-gray-300 focus:ring focus:ring-blue-200"
@@ -180,26 +128,6 @@ export default function ProductList() {
           Reset Speed
         </button>
       </div>
-      {/* -------------------------------------------------------------------------------- */}
-      <div className="flex justify-center">
-        <input
-          type="text"
-          value={text}
-          placeholder="Search car Nr..."
-          onChange={(e) => {
-            setText(e.target.value);
-            setCurrentPage(1); // Reset currentPage to 1 when searching
-          }}
-          className="w-64 px-4 py-2 rounded-full border border-gray-300 focus:ring focus:ring-blue-200"
-        />
-        <button
-          onClick={handleCarRegNrReset}
-          className="ml-2 px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
-        >
-          Reset Car Nr
-        </button>
-      </div>
-      {/* -------------------------------------------------------------------------------- */}
       {loading ? (
         <h1>Loading...</h1>
       ) : (

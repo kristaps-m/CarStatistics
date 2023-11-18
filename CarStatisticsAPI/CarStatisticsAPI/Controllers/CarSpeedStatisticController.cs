@@ -56,9 +56,8 @@ namespace CarStatisticsAPI.Controllers
 
             return Ok(allCarSpeedStatistic);
         }
-        // https://localhost:5000/api/carspeedstatistic/get?speed=95&dateFrom=2020-08-20T15%3A00%3A00&dateUntil=2020-08-21T00%3A00%3A00
         // https://localhost:5000/api/carspeedstatistic/get?speed=100&dateFrom=2020-08-20&dateUntil=2020-08-21
-        // https://localhost:5000/api/carspeedstatistic/get?speed=100&dateUntil=2020-08-20
+        // https://localhost:5000/api/carspeedstatistic/get?speed=105&dateFrom=&dateUntil=
         [Route("get")]
         [HttpGet]
         public IActionResult GetBySpeedDatefromDateto(int? speed, DateTime? dateFrom, DateTime? dateUntil)

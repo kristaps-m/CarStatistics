@@ -65,7 +65,9 @@ interface CarAverageSpeedResultsInDay {
 }
 
 export default function Graph() {
-  const [carStatistics, setYolo] = useState<CarAverageSpeedResultsInDay[]>([]);
+  const [carStatistics, setCarAvgSpeedResultsInDay] = useState<
+    CarAverageSpeedResultsInDay[]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [carDateFrom, setCarDateFrom] = useState("");
   const [searchCarDateFrom] = useDebounce(carDateFrom, 1000); // 1 seconds
@@ -76,7 +78,7 @@ export default function Graph() {
   useEffect(() => {
     agent.Catalog.getByDate(searchCarDateFrom)
       .then((data) => {
-        setYolo(data);
+        setCarAvgSpeedResultsInDay(data);
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
@@ -110,6 +112,15 @@ export default function Graph() {
       </div>
       <br />
       <br />
+      {carStatistics.length == 0 && searchCarDateFrom != "" ? (
+        <h1 className="flex justify-center text-3xl font-bold mb-4">
+          Calculating average speed
+        </h1>
+      ) : (
+        <h1 className="flex justify-center text-3xl font-bold mb-4">
+          See graph below
+        </h1>
+      )}
       {loading ? (
         "Graph is loading"
       ) : (
