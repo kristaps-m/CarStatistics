@@ -2,6 +2,7 @@
 using CarStatistics.Core.models;
 using CarStatistics.Core.Models;
 using CarStatistics.Data;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CarStatistics.Services
 {
@@ -10,6 +11,33 @@ namespace CarStatistics.Services
         public CarSpeedStatisticService(ICarStatisticsDbContext context) : base(context)
         {
             
+        }
+
+        public List<CarSpeedStatistic> FilterBySpeedDatefromDateuntil(int? speed, DateTime? dateFrom, DateTime? dateUntil)
+        {
+            IQueryable<CarSpeedStatistic> resultQuery = _context.CarSpeedStatistics;
+
+            if (speed.HasValue)
+            {
+                resultQuery = resultQuery.Where(cSpeedStat => cSpeedStat.CarSpeed >= speed.Value);
+            }
+
+            if (dateFrom.HasValue)
+            {
+                resultQuery = resultQuery.Where(cSpeedStat => cSpeedStat.CarSpeedDate > dateFrom.Value);
+            }
+
+            if (dateUntil.HasValue)
+            {
+                resultQuery = resultQuery.Where(cSpeedStat => cSpeedStat.CarSpeedDate <= dateUntil.Value);
+            }
+            // If no filters are provided, return the first 1000 records
+            if (!speed.HasValue && !dateFrom.HasValue && !dateUntil.HasValue)
+            {
+                resultQuery = resultQuery.Take(1000);
+            }
+
+            return resultQuery.ToList();
         }
 
         public List<CarAverageSpeedResultsInDay> CalculateAverageSpeedByHourInDay(DateTime dayToGetAvgSpeedResults)

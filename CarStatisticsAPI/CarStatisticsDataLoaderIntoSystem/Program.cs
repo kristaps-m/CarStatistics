@@ -4,44 +4,58 @@ using System.Data;
 
 string MAIN_PATH = Directory.GetCurrentDirectory().Replace("bin\\Debug\\net6.0", "");
 string THE_FILE_NAME = "speed.txt";
+bool addDataToSQLDatabase = false;
 
-List<CarSpeedStatistic> carSpeedDataList = GetYourData(MAIN_PATH, THE_FILE_NAME);
-var dataListLength = carSpeedDataList.Count;
-
-Console.WriteLine("Hello World!");
-// This is connection string from \CarStatistics\CarStatisticsAPI\CarStatisticsAPI\appsettings.json
-string connectionString = "Data Source=.;Initial Catalog=CarStatistics;Integrated Security=True;";
-using var connection = new SqlConnection(connectionString);
-
-var theTable = new DataTable();
-theTable.Columns.Add("Id");
-theTable.Columns.Add("CarSpeedDate");
-theTable.Columns.Add("CarSpeed");
-theTable.Columns.Add("CarRegistrationNumber");
-
-for (int i = 0; i < dataListLength; i++)
+async void AddDataToSQLDatabase()
 {
-    var cDate = carSpeedDataList[i].CarSpeedDate;
-    var cSpeed = carSpeedDataList[i].CarSpeed;
-    var cRegNr = carSpeedDataList[i].CarRegistrationNumber;
-    theTable.Rows.Add(new object[] {i+1, cDate, cSpeed, cRegNr});
+    List<CarSpeedStatistic> carSpeedDataList = GetYourData(MAIN_PATH, THE_FILE_NAME);
+    var dataListLength = carSpeedDataList.Count;
+
+    // This is connection string from \CarStatistics\CarStatisticsAPI\CarStatisticsAPI\appsettings.json
+    string connectionString = "Data Source=.;Initial Catalog=CarStatistics;Integrated Security=True;";
+    using var connection = new SqlConnection(connectionString);
+
+    var theTable = new DataTable();
+    theTable.Columns.Add("Id");
+    theTable.Columns.Add("CarSpeedDate");
+    theTable.Columns.Add("CarSpeed");
+    theTable.Columns.Add("CarRegistrationNumber");
+
+    Console.WriteLine("Creating DataTable!");
+
+    for (int i = 0; i < dataListLength; i++)
+    {
+        var cDate = carSpeedDataList[i].CarSpeedDate;
+        var cSpeed = carSpeedDataList[i].CarSpeed;
+        var cRegNr = carSpeedDataList[i].CarRegistrationNumber;
+        theTable.Rows.Add(new object[] { i + 1, cDate, cSpeed, cRegNr });
+    }
+
+    using var bulkCopy = new SqlBulkCopy(connection);
+    bulkCopy.DestinationTableName = "CarSpeedStatistics";
+    bulkCopy.BatchSize = dataListLength;
+    bulkCopy.BulkCopyTimeout = 60;
+    Console.WriteLine("Adding data to Database!");
+    connection.Open();
+    await bulkCopy.WriteToServerAsync(theTable);
 }
 
-using var bulkCopy = new SqlBulkCopy(connection);
-bulkCopy.DestinationTableName = "CarSpeedStatistics";
-bulkCopy.BatchSize = dataListLength;
-bulkCopy.BulkCopyTimeout = 40 * 60;
-connection.Open();
-await bulkCopy.WriteToServerAsync(theTable);
-
-Console.WriteLine("End connection");
+if (addDataToSQLDatabase)
+{
+    AddDataToSQLDatabase();
+    Console.WriteLine("End connection");
+}
+else
+{
+    Console.WriteLine($"AddData variable is '{addDataToSQLDatabase}' for safety reasons. Set it to 'true' to add data!");
+}
 
 static List<CarSpeedStatistic> GetYourData(string mainPath, string theFileName)
 {
     string carStatisticsFileName = theFileName;
     string carStatisticFilePath = Path.Combine(mainPath, carStatisticsFileName);
 
-    Console.WriteLine("Hello, World!");
+    Console.WriteLine("Starting to create CarSpeedStatistic list!");
     var lines = File.ReadAllLines(carStatisticFilePath);
     var theBigCarSpeedStatisticList = new List<CarSpeedStatistic>();
 
@@ -57,5 +71,6 @@ static List<CarSpeedStatistic> GetYourData(string mainPath, string theFileName)
         theBigCarSpeedStatisticList.Add(carSpeedStatisct);
     }
 
+    Console.WriteLine("List created!");
     return theBigCarSpeedStatisticList;
 }
