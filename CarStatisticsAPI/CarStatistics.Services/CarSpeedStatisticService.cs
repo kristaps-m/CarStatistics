@@ -43,13 +43,15 @@ namespace CarStatistics.Services
         public List<CarAverageSpeedResultsInDay> CalculateAverageSpeedByHourInDay(DateTime dayToGetAvgSpeedResults)
         {
             var result = new List<CarAverageSpeedResultsInDay>();
+            // all CarSpeedStats in the day human searched
+            IQueryable<CarSpeedStatistic> resultQuery = _context.CarSpeedStatistics
+                .Where(carSpeedStat => carSpeedStat.CarSpeedDate == dayToGetAvgSpeedResults);
 
             foreach (var itemOfOneHour in _carSpeedsForEachHourOfDay)
             {
-                foreach (var oneCarStatistic in _context.CarSpeedStatistics)
+                foreach (var oneCarStatistic in resultQuery)
                 {
-                    if (oneCarStatistic.CarSpeedDate.Date == dayToGetAvgSpeedResults.Date &&
-                        itemOfOneHour.Key == oneCarStatistic.CarSpeedDate.Hour)
+                    if (itemOfOneHour.Key == oneCarStatistic.CarSpeedDate.Hour)
                     {
                         itemOfOneHour.Value.Add(oneCarStatistic.CarSpeed);
                     }
