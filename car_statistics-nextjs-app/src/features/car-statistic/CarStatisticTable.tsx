@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import agent from "../../app/api/agent";
 import { CarStatistic } from "../../app/models/CarStatistic";
 import CarStatisticRow from "./CarStatisticRow";
-import Pagination, { paginate } from "../../component/Pagination";
+import AppPagination, { paginate } from "../../component/AppPagination";
 import { useDebounce } from "use-debounce";
 
 function ToDate(dateString: string) {
@@ -128,7 +128,7 @@ export default function ProductList() {
           Reset Speed
         </button>
       </div>
-      <Pagination
+      <AppPagination
         items={carStatistics.length}
         currentPage={currentPage} // 1
         pageSize={pageSize}
@@ -164,7 +164,7 @@ export default function ProductList() {
         </div>
       )}
       <br />
-      <Pagination
+      <AppPagination
         items={carStatistics.length}
         currentPage={currentPage} // 1
         pageSize={pageSize}
