@@ -128,6 +128,12 @@ export default function ProductList() {
           Reset Speed
         </button>
       </div>
+      <Pagination
+        items={carStatistics.length}
+        currentPage={currentPage} // 1
+        pageSize={pageSize}
+        onPageChange={onPageChange}
+      />
       {loading ? (
         <h1>Loading...</h1>
       ) : (
