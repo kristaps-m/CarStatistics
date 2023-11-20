@@ -45,7 +45,7 @@ namespace CarStatistics.Services
             var result = new List<CarAverageSpeedResultsInDay>();
             // all CarSpeedStats in the day human searched
             IQueryable<CarSpeedStatistic> resultQuery = _context.CarSpeedStatistics
-                .Where(carSpeedStat => carSpeedStat.CarSpeedDate == dayToGetAvgSpeedResults);
+                .Where(carSpeedStat => carSpeedStat.CarSpeedDate.Date == dayToGetAvgSpeedResults.Date);
 
             foreach (var itemOfOneHour in _carSpeedsForEachHourOfDay)
             {
