@@ -90,8 +90,6 @@ export default function ProductList() {
         <table className="table-auto w-full">
           <thead>
             <tr>
-              <th className="px-4 py-2">Row Nr</th>
-              <th className="px-4 py-2">ID</th>
               <th className="px-4 py-2">
                 CarSpeedDate <p style={{ fontSize: 10 }}>(dd/mm/yyyy)</p>
               </th>
@@ -103,7 +101,6 @@ export default function ProductList() {
           <tbody>
             {paginatedPosts.map((oneCarStatistic, index) => (
               <CarStatisticRow
-                index={index + 1}
                 key={oneCarStatistic.id}
                 carStatistic={oneCarStatistic}
               />

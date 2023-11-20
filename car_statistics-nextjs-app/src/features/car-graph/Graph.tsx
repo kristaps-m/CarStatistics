@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { VictoryChart } from "victory-chart/lib/victory-chart";
-import { CarStatistic } from "../../app/models/CarStatistic";
 import agent from "../../app/api/agent";
 import {
   VictoryAxis,

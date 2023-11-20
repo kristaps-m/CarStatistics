@@ -39,26 +39,29 @@ const CarStatisticDetails = () => {
           <p>Loading...</p>
         ) : oneCarStatistic ? (
           <div className="product-details">
-            <h1 className="text-5xl">{oneCarStatistic.id}</h1>
+            <h1 className="text-8xl">
+              {oneCarStatistic.carRegistrationNumber}
+            </h1>
             <Image
               src={`https://picsum.photos/id/${
                 oneCarStatistic.id + 10
               }/400/300`}
               alt={oneCarStatistic.carRegistrationNumber}
-              className="w-full pt-5 w-30 object-cover mb-4 transition-transform transform hover:scale-105"
+              className="pt-5 w-30 object-cover mb-4 transition-transform transform hover:scale-105"
               width={400}
               height={300}
             />
-            <h2>
+            <p className="text-4xl">
               CarSpeedDate(dd/mm/yyyy):{" "}
-              {new Date(oneCarStatistic.carSpeedDate).toLocaleDateString(
-                "en-GB"
-              )}
-            </h2>
-            <h2>CarSpeed: {oneCarStatistic.carSpeed}</h2>
-            <h2>
-              CarRegistrationNumber: {oneCarStatistic.carRegistrationNumber}
-            </h2>
+              <b>
+                {new Date(oneCarStatistic.carSpeedDate).toLocaleDateString(
+                  "en-GB"
+                )}
+              </b>
+            </p>
+            <p className="text-4xl">
+              CarSpeed: <b>{oneCarStatistic.carSpeed}</b>
+            </p>
           </div>
         ) : (
           <p>No CarStatistic found.</p>

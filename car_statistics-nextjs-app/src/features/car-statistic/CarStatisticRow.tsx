@@ -2,18 +2,12 @@ import React from "react";
 import { CarStatistic } from "../../app/models/CarStatistic";
 
 interface CarStatisticRowProps {
-  index: number;
   carStatistic: CarStatistic;
 }
 
-const CarStatisticRow: React.FC<CarStatisticRowProps> = ({
-  index,
-  carStatistic,
-}) => {
+const CarStatisticRow: React.FC<CarStatisticRowProps> = ({ carStatistic }) => {
   return (
     <tr data-testid="carStatisticRow-1">
-      <td className="border border-black px-4 py-2">{index}</td>
-      <td className="border border-black px-4 py-2">{carStatistic.id}</td>
       <td className="border border-black px-4 py-2">
         {new Date(carStatistic.carSpeedDate).toLocaleDateString("en-GB")}
       </td>

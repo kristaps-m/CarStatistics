@@ -13,10 +13,12 @@ test("should render HomePage feature/home", () => {
 
   expect(homePageElement).toBeInTheDocument();
   expect(homePageElement).toHaveTextContent(
-    "Explore our wide range of high-quality products."
+    "Explore our wide range of high-quality features."
   );
+  expect(homePageElement).toHaveTextContent("Top Speed of the previous month:");
+  expect(homePageElement).toHaveTextContent("Remember to be safe on road!");
   expect(homePageElement).toHaveTextContent(
-    "DISCLAIMER: Images are just to represent possible picture size in a real application. Do not take what's displayed in pictures seriously."
+    "DISCLAIMER: Images in routes: http://localhost:3000/car-statistics/id are just to represent possible picture size in a real application. Do not take what's displayed in picture seriously."
   );
 });
 
