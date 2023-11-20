@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 export default function HomePage() {
   return (
@@ -12,10 +13,12 @@ export default function HomePage() {
       <br />
       <br />
       <div className="product p-4 bg-white rounded-lg shadow-lg max-w-[80%]">
-        <img
+        <Image
           src="https://picsum.photos/id/292/500/500"
           alt="Product Image"
           className="product-image rounded-lg"
+          width={500}
+          height={500}
         />
         <div className="product-details">
           <h3 className="text-xl font-semibold">

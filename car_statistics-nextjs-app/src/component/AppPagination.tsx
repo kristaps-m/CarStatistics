@@ -41,38 +41,36 @@ const AppPagination = ({
   }
 
   return (
-    <div>
-      <ul className="pagination">
-        {currentPage > 4 ? (
-          <a className="pageItem" onClick={() => onPageChange(1)}>
-            1
-          </a>
-        ) : (
-          ""
-        )}
-        {currentPage > 4 ? ". . ." : ""}
-        {/* pagination midle */}
-        {pages.map((page) => (
-          <li
-            key={page}
-            className={page === currentPage ? "pageItemActive" : "pageItem"}
-          >
-            <a className="pageLink" onClick={() => onPageChange(page)}>
-              {page}
-            </a>
-          </li>
-        ))}
-        {/* pagination end */}
-        {currentPage < pagesCount - 3 ? ". . ." : ""}
-        {currentPage < pagesCount - 3 ? (
-          <a className="pageItem" onClick={() => onPageChange(pagesCount)}>
-            {pagesCount}
-          </a>
-        ) : (
-          ""
-        )}
-      </ul>
-    </div>
+    <ul className="pagination">
+      {currentPage > 4 ? (
+        <a className="pageItem" onClick={() => onPageChange(1)}>
+          1
+        </a>
+      ) : (
+        ""
+      )}
+      {currentPage > 4 ? ". . ." : ""}
+      {/* pagination midle */}
+      {pages.map((page) => (
+        <li
+          key={page}
+          className={page === currentPage ? "pageItemActive" : "pageItem"}
+        >
+          <button className="pageLink" onClick={() => onPageChange(page)}>
+            {page}
+          </button>
+        </li>
+      ))}
+      {/* pagination end */}
+      {currentPage < pagesCount - 3 ? ". . ." : ""}
+      {currentPage < pagesCount - 3 ? (
+        <a className="pageItem" onClick={() => onPageChange(pagesCount)}>
+          {pagesCount}
+        </a>
+      ) : (
+        ""
+      )}
+    </ul>
   );
 };
 export default AppPagination;

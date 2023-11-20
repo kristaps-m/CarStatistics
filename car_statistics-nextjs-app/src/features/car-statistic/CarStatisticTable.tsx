@@ -53,7 +53,7 @@ export default function ProductList() {
   );
 
   return (
-    <div data-testid="productList-1">
+    <div data-testid="carStatisticTable-1">
       {/* DATE from -------------------------------------------------------------------------- */}
       <InputFieldAndResetButton
         theType="date"
@@ -90,31 +90,29 @@ export default function ProductList() {
       {loading ? (
         <h1>Loading...</h1>
       ) : (
-        <div>
-          <table className="table-auto w-full">
-            <thead>
-              <tr>
-                <th className="px-4 py-2">Row Nr</th>
-                <th className="px-4 py-2">ID</th>
-                <th className="px-4 py-2">
-                  CarSpeedDate <p style={{ fontSize: 10 }}>(dd/mm/yyyy)</p>
-                </th>
-                <th className="px-4 py-2">CarSpeed</th>
-                <th className="px-4 py-2">CarRegistrationNumber</th>
-                <th className="px-4 py-2">View</th>
-              </tr>
-            </thead>
-            <tbody>
-              {paginatedPosts.map((oneCarStatistic, index) => (
-                <CarStatisticRow
-                  index={index + 1}
-                  key={oneCarStatistic.id}
-                  carStatistic={oneCarStatistic}
-                />
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <table className="table-auto w-full">
+          <thead>
+            <tr>
+              <th className="px-4 py-2">Row Nr</th>
+              <th className="px-4 py-2">ID</th>
+              <th className="px-4 py-2">
+                CarSpeedDate <p style={{ fontSize: 10 }}>(dd/mm/yyyy)</p>
+              </th>
+              <th className="px-4 py-2">CarSpeed</th>
+              <th className="px-4 py-2">CarRegistrationNumber</th>
+              <th className="px-4 py-2">View</th>
+            </tr>
+          </thead>
+          <tbody>
+            {paginatedPosts.map((oneCarStatistic, index) => (
+              <CarStatisticRow
+                index={index + 1}
+                key={oneCarStatistic.id}
+                carStatistic={oneCarStatistic}
+              />
+            ))}
+          </tbody>
+        </table>
       )}
       <br />
       <AppPagination

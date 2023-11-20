@@ -4,8 +4,9 @@ import { CarStatistic } from "../src/app/models/CarStatistic";
 import agent from "../src/app/api/agent";
 import { NavigationButtons } from "@/app/NavigationButtons";
 import "./../src/app/globals.css";
+import Image from "next/image";
 
-const ProductDetails = () => {
+const CarStatisticDetails = () => {
   const router = useRouter();
   const { carStatisticId: oneCarStatisticId } = router.query; // Access the product ID from the route parameter
   const [oneCarStatistic, setProduct] = useState<CarStatistic | null>(null);
@@ -31,7 +32,7 @@ const ProductDetails = () => {
   }, [oneCarStatisticId]);
 
   return (
-    <div data-testid="productDetails-1">
+    <div data-testid="carStatisticDetails-1">
       <NavigationButtons />
       <div className="flex justify-center items-center min-h-screen">
         {loading ? (
@@ -39,12 +40,14 @@ const ProductDetails = () => {
         ) : oneCarStatistic ? (
           <div className="product-details">
             <h1 className="text-5xl">{oneCarStatistic.id}</h1>
-            <img
+            <Image
               src={`https://picsum.photos/id/${
                 oneCarStatistic.id + 10
               }/400/300`}
               alt={oneCarStatistic.carRegistrationNumber}
               className="w-full pt-5 w-30 object-cover mb-4 transition-transform transform hover:scale-105"
+              width={400}
+              height={300}
             />
             <h2>
               CarSpeedDate(dd/mm/yyyy):{" "}
@@ -65,4 +68,4 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;
+export default CarStatisticDetails;

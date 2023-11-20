@@ -11,7 +11,7 @@ const CarStatisticRow: React.FC<CarStatisticRowProps> = ({
   carStatistic,
 }) => {
   return (
-    <tr>
+    <tr data-testid="carStatisticRow-1">
       <td className="border border-black px-4 py-2">{index}</td>
       <td className="border border-black px-4 py-2">{carStatistic.id}</td>
       <td className="border border-black px-4 py-2">
