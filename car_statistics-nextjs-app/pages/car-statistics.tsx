@@ -1,9 +1,13 @@
-import Catalog from "../src/features/car-statistic/Catalog";
+import { NavigationButtons } from "@/app/NavigationButtons";
+import CarStatisticTable from "@/features/car-statistic/CarStatisticTable";
 
 const CarStatisticsPage = () => {
   return (
-    <div>
-      <Catalog />
+    <div data-testid="carStatisticsPage-1">
+      <NavigationButtons />
+      <div className="flex justify-center">
+        <CarStatisticTable />
+      </div>
     </div>
   );
 };

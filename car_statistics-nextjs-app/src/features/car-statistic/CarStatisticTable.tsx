@@ -60,7 +60,6 @@ export default function ProductList() {
         theValue={carDateFrom}
         setValueInInputField={(s) => setCarDateFrom(s)}
         onResetCurrentPageClick={(n) => setCurrentPage(n)}
-        onHandleResetInInputField={() => handleDateFromReset}
         buttonText="Reset Date from"
       />
       {/* DATE to ---------------------------------------------------------------------------- */}
@@ -69,7 +68,6 @@ export default function ProductList() {
         theValue={carDateUntil}
         setValueInInputField={(s) => setCarDateUntil(s)}
         onResetCurrentPageClick={(n) => setCurrentPage(n)}
-        onHandleResetInInputField={() => handleDateUntilReset}
         buttonText="Reset Date to"
       />
       {/* SPEED -------------------------------------------------------------------------------- */}
@@ -78,7 +76,6 @@ export default function ProductList() {
         theValue={carSpeed}
         setValueInInputField={(s) => setCarSpeed(s)}
         onResetCurrentPageClick={(n) => setCurrentPage(n)}
-        onHandleResetInInputField={() => handleSpeedSearchReset}
         buttonText="Reset Speed"
       />
       <AppPagination
@@ -130,11 +127,14 @@ type InputFieldAndResetButtonProps = {
   theValue: string;
   setValueInInputField: (s: string) => void;
   onResetCurrentPageClick: (n: number) => void;
-  onHandleResetInInputField: () => void;
   buttonText: string;
 };
 
 function InputFieldAndResetButton(props: InputFieldAndResetButtonProps) {
+  const onHandleResetInInputField = () => {
+    props.setValueInInputField("");
+  };
+
   return (
     <div className="flex justify-center">
       <input
@@ -148,7 +148,7 @@ function InputFieldAndResetButton(props: InputFieldAndResetButtonProps) {
         className="w-64 px-4 py-2 rounded-full border border-gray-300 focus:ring focus:ring-blue-200"
       />
       <button
-        onClick={props.onHandleResetInInputField}
+        onClick={onHandleResetInInputField}
         className="ml-2 px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
       >
         {props.buttonText}
