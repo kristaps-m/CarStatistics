@@ -5,14 +5,9 @@ import CarStatisticRow from "./CarStatisticRow";
 import AppPagination, { paginate } from "../../component/AppPagination";
 import { useDebounce } from "use-debounce";
 
-function ToDate(dateString: string) {
-  return new Date(dateString);
-}
-
-const searchDelayinMS = 2500;
-
 export default function ProductList() {
   const [currentPage, setCurrentPage] = useState(1);
+  const searchDelayinMS = 1500;
   const pageSize = 20;
   const onPageChange = (page: number) => {
     setCurrentPage(page);
@@ -32,10 +27,10 @@ export default function ProductList() {
     setCarDateFrom("");
   };
   // DEBOUNCE Date to
-  const [carDateUntill, setCarDateTo] = useState("");
-  const [searchCarDateUntil] = useDebounce(carDateUntill, searchDelayinMS);
-  const handleDateToReset = () => {
-    setCarDateTo("");
+  const [carDateUntil, setCarDateUntil] = useState("");
+  const [searchCarDateUntil] = useDebounce(carDateUntil, searchDelayinMS);
+  const handleDateUntilReset = () => {
+    setCarDateUntil("");
   };
 
   useEffect(() => {
@@ -56,81 +51,39 @@ export default function ProductList() {
     currentPage,
     pageSize
   );
-  console.log(
-    `Speed = ${searchByCarSpeed}, From = ${searchCarDateFrom}, To = ${searchCarDateUntil}, Len = ${
-      carStatistics.length
-    }\n From.P = ${Date.parse(searchCarDateFrom)}, To.P = ${Date.parse(
-      searchCarDateUntil
-    )},\n From.ToDate = ${ToDate(searchCarDateFrom)}, To.ToDate = ${ToDate(
-      searchCarDateUntil
-    )}
-    \n${carSpeed}
-    `
-  );
 
   return (
     <div data-testid="productList-1">
-      {/* DATE from ---------------------------------------------------------------------------- */}
-      <div className="flex justify-center">
-        <input
-          type="date"
-          value={carDateFrom}
-          placeholder="Search date from..."
-          onChange={(e) => {
-            setCarDateFrom(e.target.value);
-            setCurrentPage(1); // Reset currentPage to 1 when searching
-          }}
-          className="w-64 px-4 py-2 rounded-full border border-gray-300 focus:ring focus:ring-blue-200"
-        />
-        <button
-          onClick={handleDateFromReset}
-          className="ml-2 px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
-        >
-          Reset Date from
-        </button>
-      </div>
+      {/* DATE from -------------------------------------------------------------------------- */}
+      <InputFieldAndResetButton
+        theType="date"
+        theValue={carDateFrom}
+        setValueInInputField={(s) => setCarDateFrom(s)}
+        onResetCurrentPageClick={(n) => setCurrentPage(n)}
+        onHandleResetInInputField={() => handleDateFromReset}
+        buttonText="Reset Date from"
+      />
       {/* DATE to ---------------------------------------------------------------------------- */}
-      <div className="flex justify-center">
-        <input
-          type="date"
-          value={carDateUntill}
-          placeholder="Search date to..."
-          onChange={(e) => {
-            setCarDateTo(e.target.value);
-            setCurrentPage(1); // Reset currentPage to 1 when searching
-          }}
-          className="w-64 px-4 py-2 rounded-full border border-gray-300 focus:ring focus:ring-blue-200"
-        />
-        <button
-          onClick={handleDateToReset}
-          className="ml-2 px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
-        >
-          Reset Date to
-        </button>
-      </div>
-
+      <InputFieldAndResetButton
+        theType="date"
+        theValue={carDateUntil}
+        setValueInInputField={(s) => setCarDateUntil(s)}
+        onResetCurrentPageClick={(n) => setCurrentPage(n)}
+        onHandleResetInInputField={() => handleDateUntilReset}
+        buttonText="Reset Date to"
+      />
       {/* SPEED -------------------------------------------------------------------------------- */}
-      <div className="flex justify-center">
-        <input
-          type="text"
-          value={carSpeed}
-          placeholder="Speed > or equal to.."
-          onChange={(e) => {
-            setCarSpeed(e.target.value);
-            setCurrentPage(1); // Reset currentPage to 1 when searching
-          }}
-          className="w-64 px-4 py-2 rounded-full border border-gray-300 focus:ring focus:ring-blue-200"
-        />
-        <button
-          onClick={handleSpeedSearchReset}
-          className="ml-2 px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
-        >
-          Reset Speed
-        </button>
-      </div>
+      <InputFieldAndResetButton
+        theType="text"
+        theValue={carSpeed}
+        setValueInInputField={(s) => setCarSpeed(s)}
+        onResetCurrentPageClick={(n) => setCurrentPage(n)}
+        onHandleResetInInputField={() => handleSpeedSearchReset}
+        buttonText="Reset Speed"
+      />
       <AppPagination
         items={carStatistics.length}
-        currentPage={currentPage} // 1
+        currentPage={currentPage}
         pageSize={pageSize}
         onPageChange={onPageChange}
       />
@@ -166,10 +119,42 @@ export default function ProductList() {
       <br />
       <AppPagination
         items={carStatistics.length}
-        currentPage={currentPage} // 1
+        currentPage={currentPage}
         pageSize={pageSize}
         onPageChange={onPageChange}
       />
+    </div>
+  );
+}
+
+type InputFieldAndResetButtonProps = {
+  theType: string;
+  theValue: string;
+  setValueInInputField: (s: string) => void;
+  onResetCurrentPageClick: (n: number) => void;
+  onHandleResetInInputField: () => void;
+  buttonText: string;
+};
+
+function InputFieldAndResetButton(props: InputFieldAndResetButtonProps) {
+  return (
+    <div className="flex justify-center">
+      <input
+        type={props.theType}
+        value={props.theValue}
+        placeholder="Speed > or equal to.."
+        onChange={(e) => {
+          props.setValueInInputField(e.target.value);
+          props.onResetCurrentPageClick(1); // Reset currentPage to 1 when searching
+        }}
+        className="w-64 px-4 py-2 rounded-full border border-gray-300 focus:ring focus:ring-blue-200"
+      />
+      <button
+        onClick={props.onHandleResetInInputField}
+        className="ml-2 px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
+      >
+        {props.buttonText}
+      </button>
     </div>
   );
 }
