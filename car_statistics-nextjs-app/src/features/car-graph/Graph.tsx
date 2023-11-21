@@ -36,7 +36,7 @@ export default function Graph() {
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
     // show 'Calculating average speed.' longer after changing date!
-    const interval = setInterval(() => setDateChanged(false), 2500);
+    const interval = setInterval(() => setDateChanged(false), 3500);
 
     return () => clearInterval(interval);
   }, [searchCarDateFrom]);
@@ -64,7 +64,7 @@ export default function Graph() {
           onClick={handleDateSearchReset}
           className="ml-2 px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
         >
-          Reset Date from
+          Reset Date
         </button>
       </div>
       <br />

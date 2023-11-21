@@ -56,7 +56,7 @@ const Catalog = {
     dateUntil: string
   ) =>
     requests.get(
-      `get?speed=${speed}&dateFrom=${dateFrom}&dateUntil=${dateUntil}`
+      `get-filtered?speed=${speed}&dateFrom=${dateFrom}&dateUntil=${dateUntil}`
     ),
 };
 
