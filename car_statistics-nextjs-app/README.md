@@ -1,52 +1,13 @@
-Simple NextJS App. That is fetching **Product[]** from https://run.mocky.io/v3/b54fe93f-f5a1-426b-a76c-e43d246901fd
+Simple NextJS App. That is fetching **CarSpeedStatistic[]** from https://localhost:5000/api/carspeedstatistic
 
 ```
-Product {
+CarSpeedStatistic {
   id: number;
-  name: string;
-  price: number;
-  currency: string;
-  category: string;
-  description: string;
+  carSpeedDate: string;
+  carSpeed: number;
+  carRegistrationNumber: string;
 }
 ```
-
-Home page: http://localhost:3000
-
-<img src="readme_pictures/home_page.png" width="500"/>
-
-Catalog: http://localhost:3000/products
-
-<img src="readme_pictures/products.png" width="500"/>
-
-Product details: http://localhost:3000/products/14
-
-<img src="readme_pictures/product_details.png" width="500"/>
-
-## How to run tests
-
-In 'products-nextjs-app' folder open terminal or powershell and type: 'npm run test'
-
-<img src="readme_pictures/tests.png" width="500"/>
-
-## Code from other sources
-
-Axios inside agent.ts (products-nextjs-app/src/app/api/agent.ts)
-
-- https://www.udemy.com/course/learn-to-build-an-e-commerce-store-with-dotnet-react-redux/
-
-Debounce:
-
-- https://stackoverflow.com/questions/42217121/how-to-start-search-only-when-user-stops-typing
-
-Pagination:
-
-- https://blog.logrocket.com/add-pagination-next-js-app/
-
-Tests:
-
-- https://www.youtube.com/watch?v=ML5egqL3YFE (React Testing Tutorial (Jest + React Testing Library))
-- https://fek.io/blog/add-jest-testing-framework-to-an-existing-next-js-app/
 
 ## This is a [Next.js](https://nextjs.org/) project
 
