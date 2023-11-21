@@ -125,23 +125,23 @@ https://dotnet.microsoft.com/en-us/download
 ### Pictures from project
 
 https://localhost:5000/swagger/index.html
-<img src="../CarStatistics/car_statistics-nextjs-app/readme_pictures/swagger_ui.png">
+<img src="readme_pics/swagger_ui.png">
 
 http://localhost:3000
-<img src="../CarStatistics/car_statistics-nextjs-app/readme_pictures/home_page.png">
+<img src="readme_pics/home_page.png">
 
 http://localhost:3000/car-statistics
-<img src="../CarStatistics/car_statistics-nextjs-app/readme_pictures/car_speed_statistics.png">
+<img src="readme_pics/car_speed_statistics.png">
 
 http://localhost:3000/car-statistics with filter<br/>
 backend search: get-filtered?speed=70&dateFrom=2020-08-11&dateUntil=2020-08-19
-<img src="../CarStatistics/car_statistics-nextjs-app/readme_pictures/car_speed_statistics_with_filter.png">
+<img src="readme_pics/car_speed_statistics_with_filter.png">
 
 http://localhost:3000/car-graph
-<img src="../CarStatistics/car_statistics-nextjs-app/readme_pictures/car_graph.png">
+<img src="readme_pics/car_graph.png">
 
 http://localhost:3000/car-statistics/{id}
-<img src="../CarStatistics/car_statistics-nextjs-app/readme_pictures/car_speed_st_details.png">
+<img src="readme_pics/car_speed_st_details.png">
 
 CarStatistics/car_statistics-nextjs-app -> powershell -> 'npm run test'
-<img src="../CarStatistics/car_statistics-nextjs-app/readme_pictures/tests.png">
+<img src="readme_pics/tests.png">

@@ -9,6 +9,8 @@ CarSpeedStatistic {
 }
 ```
 
+<img src="readme_pictures/home_page.png" width="500">
+
 ## This is a [Next.js](https://nextjs.org/) project
 
 It is bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
