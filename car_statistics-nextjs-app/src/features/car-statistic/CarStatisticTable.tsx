@@ -17,21 +17,12 @@ export default function ProductList() {
   // DEBOUNCE Car speed
   const [carSpeed, setCarSpeed] = useState("");
   const [searchByCarSpeed] = useDebounce(carSpeed, searchDelayinMS);
-  const handleSpeedSearchReset = () => {
-    setCarSpeed("");
-  };
   // DEBOUNCE Date from
   const [carDateFrom, setCarDateFrom] = useState("");
   const [searchCarDateFrom] = useDebounce(carDateFrom, searchDelayinMS);
-  const handleDateFromReset = () => {
-    setCarDateFrom("");
-  };
   // DEBOUNCE Date to
   const [carDateUntil, setCarDateUntil] = useState("");
   const [searchCarDateUntil] = useDebounce(carDateUntil, searchDelayinMS);
-  const handleDateUntilReset = () => {
-    setCarDateUntil("");
-  };
 
   useEffect(() => {
     agent.Catalog.getObjectsBySpeedDatefromDateuntill(
@@ -62,7 +53,7 @@ export default function ProductList() {
         onResetCurrentPageClick={(n) => setCurrentPage(n)}
         buttonText="Reset Date from"
       />
-      {/* DATE to ---------------------------------------------------------------------------- */}
+      {/* DATE to (Until) --------------------------------------------------------------------- */}
       <InputFieldAndResetButton
         theType="date"
         theValue={carDateUntil}
@@ -144,6 +135,7 @@ function InputFieldAndResetButton(props: InputFieldAndResetButtonProps) {
         }}
         className="w-64 px-4 py-2 rounded-full border border-gray-300 focus:ring focus:ring-blue-200"
       />
+      {/* Reset text in input field button */}
       <button
         onClick={onHandleResetInInputField}
         className="ml-2 px-4 py-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white"

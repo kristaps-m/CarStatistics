@@ -84,7 +84,9 @@ export default function Graph() {
         ? renderH1GraphText("Enjoy you Graph.")
         : ""}
       {loading ? (
-        "Graph is loading"
+        <h1 className="flex justify-center text-3xl font-bold mb-4">
+          Graph is loading!
+        </h1>
       ) : (
         <VictoryChart
           theme={VictoryTheme.material}
