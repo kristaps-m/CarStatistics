@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CarStatistics.Data.Migrations
 {
-    public partial class Init : Migration
+    public partial class InitSQLiteForCarStatistics : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,11 +13,11 @@ namespace CarStatistics.Data.Migrations
                 name: "CarSpeedStatistics",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CarSpeedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CarSpeed = table.Column<int>(type: "int", nullable: false),
-                    CarRegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CarSpeedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CarSpeed = table.Column<int>(type: "INTEGER", nullable: false),
+                    CarRegistrationNumber = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

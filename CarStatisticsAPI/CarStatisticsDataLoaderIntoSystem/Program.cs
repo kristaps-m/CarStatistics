@@ -1,5 +1,6 @@
 ﻿using CarStatistics.Core.models;
 using Microsoft.Data.SqlClient;
+using Microsoft.Data.Sqlite;
 using System.Data;
 
 string MAIN_PATH = Directory.GetCurrentDirectory().Replace("bin\\Debug\\net6.0", "");
@@ -12,8 +13,8 @@ async void AddDataToSQLDatabase()
     var dataListLength = carSpeedDataList.Count;
 
     // This is connection string from \CarStatistics\CarStatisticsAPI\CarStatisticsAPI\appsettings.json
-    string connectionString = "Data Source=.;Initial Catalog=CarStatistics;Integrated Security=True;";
-    using var connection = new SqlConnection(connectionString);
+    string connectionString = "Data Source=CarStatisticsSQLite.db";
+    using var connection = new SqliteConnection(connectionString);
 
     var theTable = new DataTable();
     theTable.Columns.Add("Id");
@@ -31,6 +32,7 @@ async void AddDataToSQLDatabase()
         theTable.Rows.Add(new object[] { i + 1, cDate, cSpeed, cRegNr });
     }
 
+    //using var bulkCopy = new SqlBulkCopy(connection);
     using var bulkCopy = new SqlBulkCopy(connection);
     bulkCopy.DestinationTableName = "CarSpeedStatistics";
     bulkCopy.BatchSize = dataListLength;

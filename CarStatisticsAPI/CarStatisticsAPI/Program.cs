@@ -11,8 +11,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-var connectionString = builder.Configuration.GetConnectionString("CarStatistics");
-builder.Services.AddDbContext<CarStatisticsDbContext>(x => x.UseSqlServer(connectionString));
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<CarStatisticsDbContext>(x => x.UseSqlite(connectionString));
+//builder.Services.AddDbContext<CarStatisticsDbContext>(x => x.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<ICarStatisticsDbContext, CarStatisticsDbContext>();
 builder.Services.AddScoped<IDbService, DbService>();
