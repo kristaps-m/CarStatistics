@@ -4,12 +4,10 @@ using System.Data;
 
 string MAIN_PATH = Directory.GetCurrentDirectory().Replace("bin\\Debug\\net6.0", "");
 string THE_FILE_NAME = "speed.txt";
-string myLocalPath = "YourProjectPath"; // Example: "C:\\CarStatistics\\CarStatisticsAPI\\CarStatisticsAPI\\"
+string myLocalPath = MAIN_PATH.Replace("CarStatisticsDataLoaderIntoSystem", "CarStatisticsAPI");
 // This is connection string from \CarStatistics\CarStatisticsAPI\CarStatisticsAPI\appsettings.json
-// with out full path.
 string FULL_CONNECTION_STRING = $"Data Source={myLocalPath}CarStatisticsSQLite.db";
 bool addDataToSQLDatabase = false;
-
 
 string connectionString = FULL_CONNECTION_STRING;
 
