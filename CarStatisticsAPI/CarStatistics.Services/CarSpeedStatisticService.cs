@@ -2,7 +2,6 @@
 using CarStatistics.Core.models;
 using CarStatistics.Core.Models;
 using CarStatistics.Data;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CarStatistics.Services
 {
@@ -24,12 +23,12 @@ namespace CarStatistics.Services
 
             if (dateFrom.HasValue)
             {
-                resultQuery = resultQuery.Where(cSpeedStat => cSpeedStat.CarSpeedDate > dateFrom.Value);
+                resultQuery = resultQuery.Where(cSpeedStat => cSpeedStat.CarSpeedDate.Date >= dateFrom.Value.Date);
             }
 
             if (dateUntil.HasValue)
             {
-                resultQuery = resultQuery.Where(cSpeedStat => cSpeedStat.CarSpeedDate <= dateUntil.Value);
+                resultQuery = resultQuery.Where(cSpeedStat => cSpeedStat.CarSpeedDate.Date <= dateUntil.Value.Date);
             }
             // If no filters are provided, return the first 1000 records
             if (!speed.HasValue && !dateFrom.HasValue && !dateUntil.HasValue)
