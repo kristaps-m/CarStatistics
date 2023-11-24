@@ -11,9 +11,9 @@ export default function HomePage() {
       </p>
       <br />
       <br />
-      <div className="product p-4 bg-white rounded-lg shadow-lg max-w-[80%]">
+      <div className="carStatistic p-4 bg-white rounded-lg shadow-lg max-w-[80%]">
         <br />
-        <div className="product-details">
+        <div className="carStatistic-details">
           <h3 className="text-xl font-semibold">
             Top Speed of the previous month:
           </h3>

@@ -23,7 +23,9 @@ test("should render CarStatisticDetails pages/car-statistics", () => {
     .mockReturnValue(mockUseRouter);
 
   render(<CarStatisticDetails />);
-  const productDetailsElement = screen.getByTestId("carStatisticDetails-1");
+  const carStatisticDetailsElement = screen.getByTestId(
+    "carStatisticDetails-1"
+  );
 
-  expect(productDetailsElement).toBeInTheDocument();
+  expect(carStatisticDetailsElement).toBeInTheDocument();
 });

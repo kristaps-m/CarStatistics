@@ -8,8 +8,10 @@ import Image from "next/image";
 
 const CarStatisticDetails = () => {
   const router = useRouter();
-  const { carStatisticId: oneCarStatisticId } = router.query; // Access the product ID from the route parameter
-  const [oneCarStatistic, setProduct] = useState<CarStatistic | null>(null);
+  const { carStatisticId: oneCarStatisticId } = router.query; // Access the CarStatistic ID from the route parameter
+  const [oneCarStatistic, setOneCarStatistic] = useState<CarStatistic | null>(
+    null
+  );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,12 +21,14 @@ const CarStatisticDetails = () => {
           const idToFind = Number(oneCarStatisticId);
           const foundOneCarStatistic = data.id == idToFind;
           if (foundOneCarStatistic) {
-            setProduct(data);
+            setOneCarStatistic(data);
           } else {
-            console.error("No product data found.");
+            console.error("No CarStatistic data found.");
           }
         })
-        .catch((error) => console.error("Error fetching product data:", error))
+        .catch((error) =>
+          console.error("Error fetching CarStatistic data:", error)
+        )
         .finally(() => {
           setLoading(false);
         });
@@ -38,7 +42,7 @@ const CarStatisticDetails = () => {
         {loading ? (
           <p>Loading...</p>
         ) : oneCarStatistic ? (
-          <div className="product-details">
+          <div className="carStatistic-details">
             <h1 className="text-8xl">
               {oneCarStatistic.carRegistrationNumber}
             </h1>

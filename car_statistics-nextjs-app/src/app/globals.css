@@ -26,7 +26,7 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-.product-details {
+.carStatistic-details {
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
@@ -40,34 +40,23 @@ body {
 }
 
 /* Default styles for larger screens */
-.product {
+.carStatistic {
   margin: 0 auto;
   text-align: center;
   display: flex;
   justify-content: center;
 }
 
-.product-image {
-  margin: 0 auto;
-  border: 1px solid #ccc;
-  text-align: left;
-}
-
 /* Media query for screens smaller than 768px (e.g., mobile) */
 @media (max-width: 767px) {
-  .product {
+  .carStatistic {
     flex-direction: column;
     align-items: center;
   }
 
-  .product-details {
+  .carStatistic-details {
     width: 90%;
     margin: 20px 0;
-    height: auto;
-  }
-
-  .product-image {
-    width: 90%;
     height: auto;
   }
 }

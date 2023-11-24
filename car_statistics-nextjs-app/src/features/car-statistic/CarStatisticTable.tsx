@@ -5,7 +5,7 @@ import CarStatisticRow from "./CarStatisticRow";
 import AppPagination, { paginate } from "../../component/AppPagination";
 import { useDebounce } from "use-debounce";
 
-export default function ProductList() {
+export default function CarStatisticTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const searchDelayinMS = 1500;
   const pageSize = 20;
