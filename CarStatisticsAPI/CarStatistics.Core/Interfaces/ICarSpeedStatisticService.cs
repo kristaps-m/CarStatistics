@@ -5,7 +5,7 @@ namespace CarStatistics.Core.Interfaces
 {
     public interface ICarSpeedStatisticService : IEntityService<CarSpeedStatistic>
     {
-        List<CarAverageSpeedResultsInDay> CalculateAverageSpeedByHourInDay(DateTime searchData);
+        CarAverageSpeedResultsInDay CalculateAverageSpeedByHourInDay(DateTime searchData);
         List<CarSpeedStatistic> FilterBySpeedDatefromDateuntil(int? speed, DateTime? dateFrom, DateTime? dateUntil);
         CarSpeedStatistic UpdateCarSpeedStatistic(CarSpeedStatistic carSpeedStatistic, int id);
     }

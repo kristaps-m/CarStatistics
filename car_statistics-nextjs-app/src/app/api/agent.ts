@@ -48,7 +48,7 @@ const TestErrors = {
 const Catalog = {
   list: () => requests.get("get-all"),
   details: (id: number) => requests.get(`${id}`),
-  getByDate: (theDate: string) =>
+  getAvgSpeedEachHourByDate: (theDate: string) =>
     requests.get(`get-avgspeed-bydate?searchByDate=${theDate}`),
   getObjectsBySpeedDatefromDateuntill: (
     speed: string,

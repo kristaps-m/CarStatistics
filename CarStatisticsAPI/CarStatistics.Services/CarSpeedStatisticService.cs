@@ -39,9 +39,13 @@ namespace CarStatistics.Services
             return resultQuery.ToList();
         }
 
-        public List<CarAverageSpeedResultsInDay> CalculateAverageSpeedByHourInDay(DateTime dayToGetAvgSpeedResults)
+        public CarAverageSpeedResultsInDay CalculateAverageSpeedByHourInDay(DateTime dayToGetAvgSpeedResults)
         {
-            var result = new List<CarAverageSpeedResultsInDay>();
+            var result = new CarAverageSpeedResultsInDay
+            {
+                DateAvgSpeedIsSearched = dayToGetAvgSpeedResults,
+                ResultEachHour = new List<SpeedResultEachHour>()
+            };
             // all CarSpeedStats in the day human searched
             IQueryable<CarSpeedStatistic> resultQuery = _context.CarSpeedStatistics
                 .Where(carSpeedStat => carSpeedStat.CarSpeedDate.Date == dayToGetAvgSpeedResults.Date);
@@ -62,11 +66,11 @@ namespace CarStatistics.Services
                 if(item.Value.Count != 0)
                 {
                     double theAvgSpeed = Math.Round((double)item.Value.Sum() / item.Value.Count, 2);
-                    result.Add(new CarAverageSpeedResultsInDay(item.Key, theAvgSpeed));
+                    result.ResultEachHour.Add(new SpeedResultEachHour(item.Key, theAvgSpeed));
                 }
                 else
                 {
-                    result.Add(new CarAverageSpeedResultsInDay(item.Key, 0));
+                    result.ResultEachHour.Add(new SpeedResultEachHour(item.Key, 0));
                 }
             }
 

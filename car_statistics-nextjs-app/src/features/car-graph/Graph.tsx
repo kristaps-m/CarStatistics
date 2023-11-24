@@ -10,36 +10,46 @@ import {
 } from "victory";
 import { useDebounce } from "use-debounce";
 
-interface CarAverageSpeedResultsInDay {
+interface SpeedResultEachHour {
   hour: number;
   speed: number;
 }
 
+interface CarAverageSpeedResultsInDay {
+  dateAvgSpeedIsSearched: string;
+  resultEachHour: SpeedResultEachHour[];
+}
+
 export default function Graph() {
   const [carStatisticsAvgSpeed, setCarAvgSpeedResultsInDay] = useState<
-    CarAverageSpeedResultsInDay[]
+    SpeedResultEachHour[]
   >([]);
+  const [dateUserIsSearchedFromAPI, setSearchedDateFromAPI] = useState("");
   const [loading, setLoading] = useState(true);
-  const [carDateFrom, setCarDateToGetAvgSpeed] = useState("");
+  const [carDateForGraph, setCarDateToGetAvgSpeed] = useState("");
   const [dateChanged, setDateChanged] = useState(false);
-  const [searchCarDateFrom] = useDebounce(carDateFrom, 400); // 400 ms
+  const [searchDebounceCarDateForGraph] = useDebounce(carDateForGraph, 400); // 400 ms
   const handleDateSearchReset = () => {
     setCarDateToGetAvgSpeed("");
     setCarAvgSpeedResultsInDay([]);
+    setSearchedDateFromAPI("");
   };
 
   useEffect(() => {
-    agent.Catalog.getByDate(searchCarDateFrom)
-      .then((data) => {
-        setCarAvgSpeedResultsInDay(data);
+    agent.Catalog.getAvgSpeedEachHourByDate(searchDebounceCarDateForGraph)
+      .then((data: CarAverageSpeedResultsInDay) => {
+        setCarAvgSpeedResultsInDay(data.resultEachHour);
+        setSearchedDateFromAPI(data.dateAvgSpeedIsSearched.split("T")[0]);
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
     // show 'Calculating average speed.' longer after changing date!
-    const interval = setInterval(() => setDateChanged(false), 3500);
+    const interval = setInterval(() => setDateChanged(false), 1000);
 
     return () => clearInterval(interval);
-  }, [searchCarDateFrom]);
+  }, [searchDebounceCarDateForGraph]);
+
+  console.log(carStatisticsAvgSpeed);
 
   return (
     <div data-testid="homePage-1">
@@ -52,7 +62,7 @@ export default function Graph() {
       <div className="flex justify-center">
         <input
           type="date"
-          value={carDateFrom}
+          value={carDateForGraph}
           placeholder="Search date from..."
           onChange={(e) => {
             setCarDateToGetAvgSpeed(e.target.value);
@@ -69,20 +79,27 @@ export default function Graph() {
       </div>
       <br />
       <br />
-      {searchCarDateFrom == ""
+      {searchDebounceCarDateForGraph == ""
         ? renderH1GraphText("No date provided. Graph is empty!")
         : ""}
-      {dateChanged ||
-      (carStatisticsAvgSpeed.length == 0 && searchCarDateFrom != "")
+      {carStatisticsAvgSpeed.length == 0 && searchDebounceCarDateForGraph != ""
         ? renderH1GraphText(
-            `Calculating average speed. Calculating... ${searchCarDateFrom}`
+            `Calculating average speed. Calculating... ${searchDebounceCarDateForGraph}`
           )
         : ""}
       {carStatisticsAvgSpeed.length > 0 &&
-      searchCarDateFrom != "" &&
-      !dateChanged
-        ? renderH1GraphText("Enjoy you Graph.")
+      searchDebounceCarDateForGraph != dateUserIsSearchedFromAPI
+        ? renderH1GraphText(
+            `Calculating average speed. Calculating... ${searchDebounceCarDateForGraph}`
+          )
         : ""}
+      {carStatisticsAvgSpeed.length > 0 &&
+      searchDebounceCarDateForGraph == dateUserIsSearchedFromAPI
+        ? renderH1GraphText(
+            `Enjoy you Graph. Date: ${dateUserIsSearchedFromAPI}`
+          )
+        : ""}
+      {/* Display Graph */}
       {loading ? (
         <h1 className="flex justify-center text-3xl font-bold mb-4">
           Graph is loading!
@@ -105,7 +122,7 @@ export default function Graph() {
             data={carStatisticsAvgSpeed}
             x="hour"
             y="speed"
-            labels={({ datum }: { datum: CarAverageSpeedResultsInDay }) =>
+            labels={({ datum }: { datum: SpeedResultEachHour }) =>
               `time: ${datum.hour}:00\nspeed: ${datum.speed}`
             } // Tooltip content for data points
             labelComponent={
@@ -115,7 +132,7 @@ export default function Graph() {
               />
             }
           />
-          <VictoryAxis label="Hours" tickFormat={(t) => `${t}:00`} />
+          <VictoryAxis label={`\n\n\nHour`} tickFormat={(t) => `${t}:00`} />
           <VictoryAxis dependentAxis label="Speed" />
         </VictoryChart>
       )}

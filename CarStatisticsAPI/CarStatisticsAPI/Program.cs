@@ -13,7 +13,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<CarStatisticsDbContext>(x => x.UseSqlite(connectionString));
-//builder.Services.AddDbContext<CarStatisticsDbContext>(x => x.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<ICarStatisticsDbContext, CarStatisticsDbContext>();
 builder.Services.AddScoped<IDbService, DbService>();
