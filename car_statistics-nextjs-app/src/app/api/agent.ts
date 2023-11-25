@@ -50,7 +50,7 @@ const Catalog = {
   details: (id: number) => requests.get(`${id}`),
   getAvgSpeedEachHourByDate: (theDate: string) =>
     requests.get(`get-avgspeed-bydate?searchByDate=${theDate}`),
-  getObjectsBySpeedDatefromDateuntill: (
+  getObjectsBySpeedDatefromDateUntil: (
     speed: string,
     dateFrom: string,
     dateUntil: string

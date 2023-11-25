@@ -25,7 +25,7 @@ export default function CarStatisticTable() {
   const [searchCarDateUntil] = useDebounce(carDateUntil, searchDelayinMS);
 
   useEffect(() => {
-    agent.Catalog.getObjectsBySpeedDatefromDateuntill(
+    agent.Catalog.getObjectsBySpeedDatefromDateUntil(
       searchByCarSpeed,
       searchCarDateFrom,
       searchCarDateUntil
