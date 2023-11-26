@@ -15,7 +15,7 @@ https://visualstudio.microsoft.com/free-developer-offers/
 .NET 6.0 <br>
 https://dotnet.microsoft.com/en-us/download
 
-1. Download all files and folders inside 'CarStatistics'.
+1. Download and extract all files and folders inside 'CarStatistics'.
 
    - CarStatistics
      - car_statistics-nextjs-app
@@ -27,6 +27,7 @@ https://dotnet.microsoft.com/en-us/download
 
    - 4.1 If you are on Windows OS - Double click 'start-apps.bat' file in root directory.
    - <img src="readme_pics/start_bat_file.png">
+   - If windows defender or antivirus says it is unsafe (you can open it in texteditor and look that is safe) you can still run it.
    - This should open 2 Command Prompts and default Web Browser.
    - :exclamation: Wait until all is loaded and start using http://localhost:3000
 
@@ -59,25 +60,27 @@ https://dotnet.microsoft.com/en-us/download
    - car-statistics
      - Inside http://localhost:3000/car-statistics.
      - If no filters are entered it returns the first 1000 'CarStatistics'.
-     - Enter 'Date from' or 'Date to' or 'Speed' or None to filter 'CarStatistics'.
+     - Enter 'Date from' or 'Date until' or 'Speed' or None to filter 'CarStatistics'.
        - Remember we inserted 'CarStatistics' with dates from 01-08-2020 to 31-08-2020.
      - If you enter 'Date from' = '01-08-2020' it will returns over 200'000.
    - car-graph
      - Inside http://localhost:3000/car-graph.
      - Enter 'Date' to see average speed that day by hours.
        - Remember data contains 'CarStatistics' with dates from 01-08-2020 to 31-08-2020.
+     - You can hover over graph line to see more details.
 
-5. :exclamation: Use this step if data is lost or want to add new or additional data. In 'Visual Studio' open 'CarStatisticsDataLoaderIntoSystem'.
+5. :exclamation: Use this step if data is lost or you want to add new or additional data. In 'Visual Studio' open 'CarStatisticsDataLoaderIntoSystem'.
 
    - 3.1 Set as start up project 'CarStatisticsDataLoaderIntoSystem'
    - <img src="readme_pics/start_console_app.png">
    - 3.2 By default it will use 'speed.txt' `string THE_FILE_NAME = "speed.txt";`
-     - For testing you can use 'data_test.txt'
+     - For testing, you can use 'data_test.txt'
        - If you want to delete test files from database you can use query `DELETE FROM CarSpeedStatistics` (or similar depending on your naming)
+         - You can use 'DB Browser (SQLite)' to open 'CarStatisticsSQLite.db'
    - 3.3 Set `addDataToSQLDatabase` to `true`! (`bool addDataToSQLDatabase = true;`)
    - 3.4 Launch the 'CarStatisticsDataLoaderIntoSystem' console application.
      - At the end it should print 'End connection'.
-     - You can look inside 'CarStatisticsSQLite.db' using 'DB Browser (SQLite)'
+     - You can look inside 'CarStatisticsSQLite.db' using ['DB Browser (SQLite)](https://sqlitebrowser.org/dl/)'
      - <img src="readme_pics/data_added_to_sql.png">
    - :exclamation: If you want to add aditional data to existing one.
 
@@ -111,8 +114,10 @@ https://dotnet.microsoft.com/en-us/download
 
 - A large amount of data. I have never worked before with a database that has over 200'000 rows. The challenge was to insert all rows in the SQL database quickly.
 - The challenge was to display data in the frontend. At the beginning I inserted test data (100) rows, and added simple pagination. It worked until I inserted all 200'000+ rows. Simple pagination did not work because it displayed pagination numbers from 1 to data 'row count / page size' (220'000 / 20). After searching the internet and adding modifications to my Pagination I fixed this issue. Now it is a beautiful pagination with few buttons.
-- The Challenge to display a graph and inform users about when data is loaded correctly. When a date is entered frontend displays a graph with calculations at different times. That could be confusing to a user. For now, I added 3.5 second delay to the `dateChanged` constant to indicate loading longer.
-- Then changeed backend api/carspeedstatistic/get-avgspeed-bydate return type that also includes searched date. And in frontend and if date from user input maches with date from api, then text about "Calculation avg speed" disappears.
+- The Challenge to display a graph and inform users about when data is loaded correctly. When a date is entered frontend displays a graph with calculations at different times. That could be confusing to a user. For now, I added 1 second delay to the `dateChanged` constant to indicate loading longer.
+- I left `dateChanged` constant for testing, but it is not being used to display text "Calculating...".
+- I changeed backend `api/carspeedstatistic/get-avgspeed-bydate` return type that also includes searched date. And in frontend and if date from user input maches with date from api, then text about "Calculation avg speed" disappears.
+- Calculations from `api/carspeedstatistic/get-avgspeed-bydate` was to slow. I changed so that calculations is being make in SQL.
 
 ### Improvements
 
@@ -137,28 +142,29 @@ https://dotnet.microsoft.com/en-us/download
     }
   ```
 
+- And modify so that both pages are sherable, with all search info inculded in link.
 - Inside http://localhost:3000/car-graph let user pick graph type. Now it is very close up graph.
 
 ### Pictures from project
 
-https://localhost:5000/swagger/index.html
+https://localhost:5000/swagger/index.html<br/>
 <img src="readme_pics/swagger_ui.png">
 
-http://localhost:3000
+http://localhost:3000<br/>
 <img src="readme_pics/home_page.png">
 
-http://localhost:3000/car-statistics
+http://localhost:3000/car-statistics<br/>
 <img src="readme_pics/car_speed_statistics.png">
 
 http://localhost:3000/car-statistics with filter<br/>
 backend search: get-filtered?speed=70&dateFrom=2020-08-11&dateUntil=2020-08-19
 <img src="readme_pics/car_speed_statistics_with_filter.png">
 
-http://localhost:3000/car-graph
+http://localhost:3000/car-graph<br/>
 <img src="readme_pics/car_graph.png">
 
-http://localhost:3000/car-statistics/{id}
+http://localhost:3000/car-statistics/{id}<br/>
 <img src="readme_pics/car_speed_st_details.png">
 
-CarStatistics/car_statistics-nextjs-app -> powershell -> 'npm run test'
+CarStatistics/car_statistics-nextjs-app -> powershell -> 'npm run test'<br/>
 <img src="readme_pics/tests.png">
