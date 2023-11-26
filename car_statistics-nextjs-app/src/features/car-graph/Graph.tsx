@@ -49,8 +49,6 @@ export default function Graph() {
     return () => clearInterval(interval);
   }, [searchDebounceCarDateForGraph]);
 
-  console.log(carStatisticsAvgSpeed);
-
   return (
     <div data-testid="homePage-1">
       <h1 className="flex justify-center text-3xl font-bold mb-4">
@@ -82,11 +80,6 @@ export default function Graph() {
       {searchDebounceCarDateForGraph == ""
         ? renderH1GraphText("No date provided. Graph is empty!")
         : ""}
-      {carStatisticsAvgSpeed.length == 0 && searchDebounceCarDateForGraph != ""
-        ? renderH1GraphText(
-            `Calculating average speed. Calculating... ${searchDebounceCarDateForGraph}`
-          )
-        : ""}
       {carStatisticsAvgSpeed.length > 0 &&
       searchDebounceCarDateForGraph != dateUserIsSearchedFromAPI
         ? renderH1GraphText(
@@ -94,11 +87,25 @@ export default function Graph() {
           )
         : ""}
       {carStatisticsAvgSpeed.length > 0 &&
-      searchDebounceCarDateForGraph == dateUserIsSearchedFromAPI
+      searchDebounceCarDateForGraph == dateUserIsSearchedFromAPI &&
+      !isAvgSpeedZero(carStatisticsAvgSpeed)
         ? renderH1GraphText(
             `Enjoy you Graph. Date: ${dateUserIsSearchedFromAPI}`
           )
         : ""}
+      {carStatisticsAvgSpeed.length != 0 &&
+      searchDebounceCarDateForGraph == dateUserIsSearchedFromAPI &&
+      isAvgSpeedZero(carStatisticsAvgSpeed) ? (
+        <>
+          {renderH1GraphText(`Date you entered (${dateUserIsSearchedFromAPI})
+          have avg speed 0. Feel free to pick another date.`)}
+          <p className="flex justify-center">
+            This might be because this date has no records about speeds.
+          </p>
+        </>
+      ) : (
+        ""
+      )}
       {/* Display Graph */}
       {loading ? (
         <h1 className="flex justify-center text-3xl font-bold mb-4">
@@ -144,4 +151,13 @@ function renderH1GraphText(params: string) {
   return (
     <h1 className="flex justify-center text-3xl font-bold mb-4">{params}</h1>
   );
+}
+
+function isAvgSpeedZero(params: SpeedResultEachHour[]) {
+  let totalSpeed = 0.0;
+  params.forEach((element) => {
+    totalSpeed += element.speed;
+  });
+  console.log(totalSpeed, "This is total speed");
+  return totalSpeed == 0.0;
 }

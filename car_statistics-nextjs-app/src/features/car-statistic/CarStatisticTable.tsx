@@ -76,7 +76,9 @@ export default function CarStatisticTable() {
         onPageChange={onPageChange}
       />
       {loading ? (
-        <h1>Loading...</h1>
+        <h1 className="flex justify-center text-3xl font-bold mb-4">
+          Loading...
+        </h1>
       ) : (
         <table className="table-auto w-full">
           <thead>

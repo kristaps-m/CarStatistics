@@ -46,31 +46,30 @@ namespace CarStatistics.Services
                 DateAvgSpeedIsSearched = dayToGetAvgSpeedResults,
                 ResultEachHour = new List<SpeedResultEachHour>()
             };
-            // all CarSpeedStats in the day human searched
-            IQueryable<CarSpeedStatistic> resultQuery = _context.CarSpeedStatistics
-                .Where(carSpeedStat => carSpeedStat.CarSpeedDate.Date == dayToGetAvgSpeedResults.Date);
 
-            foreach (var itemOfOneHour in _carSpeedsForEachHourOfDay)
-            {
-                foreach (var oneCarStatistic in resultQuery)
+            var hourlySpeeds = _context.CarSpeedStatistics
+                .Where(carSpeedStat => carSpeedStat.CarSpeedDate.Date == dayToGetAvgSpeedResults.Date)
+                .GroupBy(carSpeedStat => carSpeedStat.CarSpeedDate.Hour)
+                .Select(group => new
                 {
-                    if (itemOfOneHour.Key == oneCarStatistic.CarSpeedDate.Hour)
-                    {
-                        itemOfOneHour.Value.Add(oneCarStatistic.CarSpeed);
-                    }
+                    Hour = group.Key,
+                    AvgSpeed = Math.Round(group.Average(stat => stat.CarSpeed), 2)
+                })
+                .ToList();
+
+            if (hourlySpeeds.Count == 0)
+            {
+                // For each hour of day from 0:00 to 23:00
+                for (int i = 0; i <= 23; i++)
+                {
+                    result.ResultEachHour.Add(new SpeedResultEachHour(i, 0));
                 }
             }
-
-            foreach (var item in _carSpeedsForEachHourOfDay)
+            else
             {
-                if(item.Value.Count != 0)
+                foreach (var hourlySpeed in hourlySpeeds)
                 {
-                    double theAvgSpeed = Math.Round((double)item.Value.Sum() / item.Value.Count, 2);
-                    result.ResultEachHour.Add(new SpeedResultEachHour(item.Key, theAvgSpeed));
-                }
-                else
-                {
-                    result.ResultEachHour.Add(new SpeedResultEachHour(item.Key, 0));
+                    result.ResultEachHour.Add(new SpeedResultEachHour(hourlySpeed.Hour, hourlySpeed.AvgSpeed));
                 }
             }
 
@@ -92,33 +91,5 @@ namespace CarStatistics.Services
 
             return carSpeedStatisticToUpdate;
         }
-
-        private readonly Dictionary<int, List<double>> _carSpeedsForEachHourOfDay = new()
-        {
-            { 0, new List<double> {}},
-            { 1, new List<double> {}},
-            { 2, new List<double> {}},
-            { 3, new List<double> {}},
-            { 4, new List<double> {}},
-            { 5, new List<double> {}},
-            { 6, new List<double> {}},
-            { 7, new List<double> {}},
-            { 8, new List<double> {}},
-            { 9, new List<double> {}},
-            { 10, new List<double> {}},
-            { 11, new List<double> {}},
-            { 12, new List<double> {}},
-            { 13, new List<double> {}},
-            { 14, new List<double> {}},
-            { 15, new List<double> {}},
-            { 16, new List<double> {}},
-            { 17, new List<double> {}},
-            { 18, new List<double> {}},
-            { 19, new List<double> {}},
-            { 20, new List<double> {}},
-            { 21, new List<double> {}},
-            { 22, new List<double> {}},
-            { 23, new List<double> {}},
-        };
     }
 }
