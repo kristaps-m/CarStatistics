@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { VictoryChart } from "victory-chart/lib/victory-chart";
-import agent from "../../app/api/agent";
+import Agent from "../../app/api/Agent";
 import {
   VictoryAxis,
   VictoryLine,
@@ -36,7 +36,7 @@ export default function Graph() {
   };
 
   useEffect(() => {
-    agent.Catalog.getAvgSpeedEachHourByDate(searchDebounceCarDateForGraph)
+    Agent.Catalog.getAvgSpeedEachHourByDate(searchDebounceCarDateForGraph)
       .then((data: CarAverageSpeedResultsInDay) => {
         setCarAvgSpeedResultsInDay(data.resultEachHour);
         setSearchedDateFromAPI(data.dateAvgSpeedIsSearched.split("T")[0]);

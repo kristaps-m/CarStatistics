@@ -1,3 +1,3 @@
-import CarStatisticDetails from "../CarStatisticDetails";
+import CarStatisticDetails from "./CarStatisticDetails";
 
 export default CarStatisticDetails;

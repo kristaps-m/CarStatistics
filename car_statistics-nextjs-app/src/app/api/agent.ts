@@ -60,9 +60,9 @@ const Catalog = {
     ),
 };
 
-const agent = {
+const Agent = {
   Catalog,
   TestErrors,
 };
 
-export default agent;
+export default Agent;

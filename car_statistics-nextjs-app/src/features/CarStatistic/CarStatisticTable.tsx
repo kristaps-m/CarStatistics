@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import agent from "../../app/api/agent";
-import { CarStatistic } from "../../app/models/CarStatistic";
+import Agent from "../../app/api/Agent";
+import { CarStatistic } from "../../app/Models/CarStatistic";
 import CarStatisticRow from "./CarStatisticRow";
-import AppPagination, { paginate } from "../../component/AppPagination";
+import AppPagination, { paginate } from "../../Component/AppPagination";
 import { useDebounce } from "use-debounce";
 
 export default function CarStatisticTable() {
@@ -25,7 +25,7 @@ export default function CarStatisticTable() {
   const [searchCarDateUntil] = useDebounce(carDateUntil, searchDelayinMS);
 
   useEffect(() => {
-    agent.Catalog.getObjectsBySpeedDatefromDateUntil(
+    Agent.Catalog.getObjectsBySpeedDatefromDateUntil(
       searchByCarSpeed,
       searchCarDateFrom,
       searchCarDateUntil

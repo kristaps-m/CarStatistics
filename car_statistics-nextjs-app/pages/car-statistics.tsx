@@ -1,5 +1,5 @@
 import { NavigationButtons } from "@/app/NavigationButtons";
-import CarStatisticTable from "@/features/car-statistic/CarStatisticTable";
+import CarStatisticTable from "@/features/CarStatistic/CarStatisticTable";
 
 const CarStatisticsPage = () => {
   return (

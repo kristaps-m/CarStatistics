@@ -1,4 +1,4 @@
-import { CarStatistic } from "@/app/models/CarStatistic";
+import { CarStatistic } from "@/app/Models/CarStatistic";
 import React from "react";
 
 interface PaginationProps {

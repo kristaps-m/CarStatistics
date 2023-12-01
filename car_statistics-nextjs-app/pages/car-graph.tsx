@@ -1,4 +1,4 @@
-import Graph from "../src/features/car-graph/Graph";
+import Graph from "../src/features/CarGraph/Graph";
 import { NavigationButtons } from "@/app/NavigationButtons";
 
 const CarGraphPage = () => {

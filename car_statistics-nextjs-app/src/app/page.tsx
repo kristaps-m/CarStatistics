@@ -1,5 +1,5 @@
 "use client";
-import HomePage from "@/features/home/HomePage";
+import HomePage from "@/features/Home/HomePage";
 import { NavigationButtons } from "./NavigationButtons";
 import "tailwindcss/tailwind.css";
 

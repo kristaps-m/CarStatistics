@@ -116,8 +116,8 @@ https://dotnet.microsoft.com/en-us/download
 - The challenge was to display data in the frontend. At the beginning I inserted test data (100) rows, and added simple pagination. It worked until I inserted all 200'000+ rows. Simple pagination did not work because it displayed pagination numbers from 1 to data 'row count / page size' (220'000 / 20). After searching the internet and adding modifications to my Pagination I fixed this issue. Now it is a beautiful pagination with few buttons.
 - The Challenge to display a graph and inform users about when data is loaded correctly. When a date is entered frontend displays a graph with calculations at different times. That could be confusing to a user. For now, I added 1 second delay to the `dateChanged` constant to indicate loading longer.
 - I left `dateChanged` constant for testing, but it is not being used to display text "Calculating...".
-- I changeed backend `api/carspeedstatistic/get-avgspeed-bydate` return type that also includes searched date. And in frontend and if date from user input maches with date from api, then text about "Calculation avg speed" disappears.
-- Calculations from `api/carspeedstatistic/get-avgspeed-bydate` was to slow. I changed so that calculations is being make in SQL.
+- I changeed backend `api/car-speed-statistics/get-avgspeed-bydate` return type that also includes searched date. And in frontend and if date from user input maches with date from api, then text about "Calculation avg speed" disappears.
+- Calculations from `api/car-speed-statistics/get-avgspeed-bydate` was to slow. I changed so that calculations is being make in SQL.
 
 ### Improvements
 
@@ -125,7 +125,7 @@ https://dotnet.microsoft.com/en-us/download
 - Modify app so that it returns page by page.
 
   - Change http://localhost:3000/car-statistics to something like http://localhost:3000/car-statistics?page=5
-    Modify backend link from https://localhost:5000/api/carspeedstatistic/get-filtered?speed=100&dateFrom=2020-08-20&dateUntil=2020-08-21 to someghing like https://localhost:5000/api/carspeedstatistic/get-filtered?speed=100&dateFrom=2020-08-20&dateUntil=2020-08-21&page=1
+    Modify backend link from https://localhost:5000/api/car-speed-statistics/get-filtered?speed=100&dateFrom=2020-08-20&dateUntil=2020-08-21 to someghing like https://localhost:5000/api/car-speed-statistics/get-filtered?speed=100&dateFrom=2020-08-20&dateUntil=2020-08-21&page=1
 
   - Modify return type from:
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { CarStatistic } from "../../app/models/CarStatistic";
+import { CarStatistic } from "../../app/Models/CarStatistic";
 
 interface CarStatisticRowProps {
   carStatistic: CarStatistic;

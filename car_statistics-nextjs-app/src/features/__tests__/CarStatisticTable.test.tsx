@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen, cleanup } from "@testing-library/react";
-import CarStatisticTable from "../car-statistic/CarStatisticTable";
+import CarStatisticTable from "../CarStatistic/CarStatisticTable";
 
 afterEach(() => {
   cleanup();

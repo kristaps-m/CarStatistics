@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen, cleanup } from "@testing-library/react";
-import CarStatisticDetails from "../CarStatisticDetails";
+import CarStatisticDetails from "../car-statistics/CarStatisticDetails";
 
 // Mock the next/router module
 jest.mock("next/router", () => ({

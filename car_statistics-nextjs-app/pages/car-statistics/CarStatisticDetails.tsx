@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { CarStatistic } from "../src/app/models/CarStatistic";
-import agent from "../src/app/api/agent";
+import { CarStatistic } from "../../src/app/Models/CarStatistic";
+import Agent from "@/app/api/Agent";
 import { NavigationButtons } from "@/app/NavigationButtons";
-import "./../src/app/globals.css";
+import "./../../src/app/globals.css";
 import Image from "next/image";
 
 const CarStatisticDetails = () => {
@@ -16,7 +16,7 @@ const CarStatisticDetails = () => {
 
   useEffect(() => {
     if (oneCarStatisticId) {
-      agent.Catalog.details(Number(oneCarStatisticId))
+      Agent.Catalog.details(Number(oneCarStatisticId))
         .then((data: CarStatistic) => {
           const idToFind = Number(oneCarStatisticId);
           const foundOneCarStatistic = data.id == idToFind;

@@ -8,7 +8,7 @@ module.exports = {
     return [
       {
         source: '/car-statistics',
-        destination: '/src/features/car-statistics/Catalog',
+        destination: '/src/features/car-statistic/CarStatisticTable',
       },
     ];
   },

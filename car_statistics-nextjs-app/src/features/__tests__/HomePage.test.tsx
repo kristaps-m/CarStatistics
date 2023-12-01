@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen, cleanup } from "@testing-library/react";
-import HomePage from "../home/HomePage";
+import HomePage from "../Home/HomePage";
 import React from "react";
 
 afterEach(() => {
