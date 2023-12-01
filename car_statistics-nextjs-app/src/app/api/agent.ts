@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 
-axios.defaults.baseURL = "https://localhost:5000/api/carspeedstatistic/";
+axios.defaults.baseURL = "https://localhost:5000/api/car-speed-statistics/";
 const responseBody = (response: AxiosResponse) => response.data;
 
 axios.interceptors.response.use(

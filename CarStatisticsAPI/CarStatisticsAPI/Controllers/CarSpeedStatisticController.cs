@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarStatisticsAPI.Controllers
 {
-    [Route("api/carspeedstatistic")]
+    [Route("api/car-speed-statistics")]
     [ApiController]
     public class CarSpeedStatisticController : ControllerBase
     {
@@ -29,7 +29,7 @@ namespace CarStatisticsAPI.Controllers
         public IActionResult UpdateCarSpeedStatistic(int id, CarSpeedStatistic newCarSpeedStatistic)
         {
             var carSpeedStatisticToUpdate = _carSpeedStatisticService.UpdateCarSpeedStatistic(newCarSpeedStatistic, id);
-            
+
             if (carSpeedStatisticToUpdate == null)
             {
                 return NotFound();
@@ -56,8 +56,8 @@ namespace CarStatisticsAPI.Controllers
 
             return Ok(allCarSpeedStatistic);
         }
-        // https://localhost:5000/api/carspeedstatistic/get-filtered?speed=100&dateFrom=2020-08-20&dateUntil=2020-08-21
-        // https://localhost:5000/api/carspeedstatistic/get-filtered?speed=105&dateFrom=&dateUntil=
+        // https://localhost:5000/api/car-speed-statistics/get-filtered?speed=100&dateFrom=2020-08-20&dateUntil=2020-08-21
+        // https://localhost:5000/api/car-speed-statistics/get-filtered?speed=105&dateFrom=&dateUntil=
         [Route("get-filtered")]
         [HttpGet]
         public IActionResult GetBySpeedDatefromDateto(int? speed, DateTime? dateFrom, DateTime? dateUntil)
